@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #ffffff;
+  --foreground: #0f172a;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #94a3b8;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Selection highlight */
+::selection {
+  background-color: #124b9c;
+  color: #ffffff;
+}
+
+/* Subtle glow utilities */
+.glow-blue {
+  box-shadow: 0 10px 25px -5px rgba(18, 75, 156, 0.25);
+}
+
+.glow-green {
+  box-shadow: 0 10px 25px -5px rgba(22, 163, 74, 0.25);
+}
+
+.glow-orange {
+  box-shadow: 0 10px 25px -5px rgba(234, 88, 12, 0.25);
+}
+
+.glow-red {
+  box-shadow: 0 10px 25px -5px rgba(220, 38, 38, 0.25);
+}
+
+/* ---------- Motion design ---------- */
+
+/* Reflet lumineux qui balaie un bouton */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 40%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: translateX(-120%) skewX(-20deg);
+  animation: shimmer 3.2s ease-in-out infinite;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Soulignement animé des liens de navigation */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 4px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, #124b9c, #ea580c, #16a34a);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after,
+.link-underline[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
+/* Texte en dégradé animé */
+.text-gradient-animated {
+  background-image: linear-gradient(90deg, #124b9c, #2563eb, #ea580c, #dc2626, #16a34a, #124b9c);
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradient-x 8s ease infinite;
+}
+
+/* Trame de points décorative */
+.bg-dots {
+  background-image: radial-gradient(rgba(18, 75, 156, 0.12) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Masque doux sur les bords du défilement des partenaires */
+.mask-fade-x {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+/* Accessibilité : respect de la préférence « réduire les animations » */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
