@@ -183,7 +183,7 @@ export const content: AssociationContent = {
       "Impact Hub Dakar",
       "Engage Sénégal",
     ],
-    url: "https://aus-yeumbeulnord.vercel.app",
+    url: "https://aus-associationunitesolidarite.vercel.app",
   },
 
   contact: {

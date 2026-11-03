@@ -6,8 +6,16 @@ import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import ScrollProgress from "@/components/motion/ScrollProgress";
 import { content } from "@/data/content";
 
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "") ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
+  content.meta.url;
+
 export const metadata: Metadata = {
-  metadataBase: new URL(content.meta.url),
+  metadataBase: new URL(siteUrl),
   title: {
     default: `${content.meta.acronym} – ${content.meta.fullName} | Yeumbeul Nord & Keur Massar`,
     template: `%s | ${content.meta.acronym} – Yeumbeul Nord`,
@@ -30,13 +38,14 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${content.meta.acronym} – ${content.meta.fullName}`,
     description: content.meta.description,
-    url: content.meta.url,
+    url: siteUrl,
     siteName: content.meta.siteName,
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
+        type: "image/jpeg",
         alt: "Association pour l'Unité et la Solidarité - Yeumbeul Nord",
       },
     ],
