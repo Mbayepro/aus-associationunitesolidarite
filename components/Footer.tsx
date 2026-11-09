@@ -12,6 +12,7 @@ import {
   Calendar,
   ExternalLink,
   ArrowRight,
+  ShieldCheck,
 } from "lucide-react";
 
 export default function Footer() {
@@ -24,10 +25,10 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <span className="inline-block px-3 py-1 mb-2 text-xs font-bold uppercase tracking-wider text-aus-orange-400 bg-aus-orange-950/60 rounded-full border border-aus-orange-800/40">
-              Engagement Citoyen & Solidaire
+              Zones d'intervention : Yeumbeul & Guédiawaye
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Prêt à faire la différence à Yeumbeul Nord ?
+              Prêt à faire la différence à Yeumbeul et Guédiawaye ?
             </h3>
             <p className="mt-1 text-slate-300 text-sm sm:text-base max-w-2xl">
               Rejoignez notre réseau de bénévoles, soutenez nos journées médicales gratuites ou proposez un partenariat.
@@ -183,6 +184,15 @@ export default function Footer() {
                   <span>Contactez-nous</span>
                 </Link>
               </li>
+              <li>
+                <Link
+                  href="/admin"
+                  className="hover:text-white transition-colors flex items-center gap-2 text-amber-300/90 hover:translate-x-1 duration-200 font-semibold"
+                >
+                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Espace Admin (Activités & Attestations)</span>
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -295,10 +305,18 @@ export default function Footer() {
           <p>
             © {currentYear} AUS – {content.meta.fullName}. Tous droits réservés.
           </p>
-          <div className="flex items-center space-x-4">
-            <span className="text-slate-400">Yeumbeul</span>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <span className="text-slate-400">Siège : Yeumbeul</span>
             <span>•</span>
-            <span className="text-slate-400">Sénégal</span>
+            <span className="text-slate-400">Zones : Yeumbeul & Guédiawaye</span>
+            <span>•</span>
+            <Link
+              href="/admin"
+              className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold transition-colors"
+            >
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Portail Admin
+            </Link>
           </div>
         </div>
       </div>

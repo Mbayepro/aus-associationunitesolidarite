@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import { content } from "@/data/content";
+import React, { useState, useEffect } from "react";
+import { content, ActionItem } from "@/data/content";
+import { getAllActions } from "@/lib/adminStore";
 import ActionCard from "@/components/ActionCard";
 import Reveal from "@/components/motion/Reveal";
 import { WhatsAppShareButton } from "@/components/WhatsAppShareButton";
@@ -16,10 +17,12 @@ import {
   HeartPulse,
   Baby,
   Pill,
-  CalendarDays,
   MapPin,
   ArrowRight,
   CheckCircle2,
+  PlusCircle,
+  Award,
+  Heart,
   type LucideIcon,
 } from "lucide-react";
 
@@ -28,6 +31,7 @@ const categoryIcons: Record<string, LucideIcon> = {
   Santé: Stethoscope,
   Citoyenneté: Landmark,
   Jeunesse: Sprout,
+  Solidarité: Heart,
 };
 
 const specialtyChips: { label: string; icon: LucideIcon; highlight?: boolean }[] = [
@@ -41,10 +45,20 @@ const specialtyChips: { label: string; icon: LucideIcon; highlight?: boolean }[]
 
 export default function ActionsPage() {
   const [selectedCategory, setSelectedCategory] = useState<string>("Toutes");
+  const [allActions, setAllActions] = useState<ActionItem[]>(content.actions);
 
-  const categories = ["Toutes", "Santé", "Citoyenneté", "Jeunesse"];
+  useEffect(() => {
+    const sync = () => setAllActions(getAllActions());
+    sync();
+    window.addEventListener("aus-actions-updated", sync);
+    return () => window.removeEventListener("aus-actions-updated", sync);
+  }, []);
 
-  const filteredActions = content.actions.filter((action) => {
+  const dynamicCategories = Array.from(
+    new Set(["Toutes", "Santé", "Citoyenneté", "Jeunesse", ...allActions.map((a) => a.category)])
+  );
+
+  const filteredActions = allActions.filter((action) => {
     if (selectedCategory === "Toutes") return true;
     return action.category === selectedCategory;
   });
@@ -71,15 +85,31 @@ export default function ActionsPage() {
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-4 text-base sm:text-lg text-slate-600">
-              Des initiatives concrètes organisées à Yeumbeul Nord et Keur Massar pour la santé publique, l'éducation buccale et l'éveil citoyen.
+              Des initiatives concrètes organisées à <strong>Yeumbeul</strong> et <strong>Guédiawaye</strong> pour la santé publique, l'éducation bucco-dentaire et l'éveil citoyen.
             </p>
+            <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-aus-blue-800 bg-aus-blue-50 hover:bg-aus-blue-100 border border-aus-blue-200 transition-colors"
+              >
+                <PlusCircle className="w-3.5 h-3.5 text-aus-blue-600" />
+                Ajouter une activité à l'historique
+              </Link>
+              <Link
+                href="/admin"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-colors"
+              >
+                <Award className="w-3.5 h-3.5 text-amber-600" />
+                Délivrer une attestation
+              </Link>
+            </div>
           </Reveal>
         </div>
 
         {/* Category Filters */}
         <Reveal delay={300} className="flex flex-wrap items-center justify-center gap-2" >
-          {categories.map((cat) => {
-            const Icon = categoryIcons[cat];
+          {dynamicCategories.map((cat) => {
+            const Icon = categoryIcons[cat] || LayoutGrid;
             const active = selectedCategory === cat;
             return (
               <button

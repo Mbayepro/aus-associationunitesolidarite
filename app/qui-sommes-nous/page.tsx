@@ -22,7 +22,7 @@ import {
 export const metadata: Metadata = {
   title: "Qui sommes-nous – Mission, Valeurs et Équipe",
   description:
-    "Découvrez l'histoire, la mission, les valeurs et l'équipe de l'Association pour l'Unité et la Solidarité (AUS) à Yeumbeul Nord et Keur Massar.",
+    "Découvrez l'histoire, la mission, les valeurs et l'équipe de l'Association pour l'Unité et la Solidarité (AUS), intervenant à Yeumbeul et Guédiawaye.",
 };
 
 const valueIcons: Record<string, LucideIcon> = {
@@ -48,7 +48,7 @@ const getValueColor = (color: string) => {
   }
 };
 
-const places = ["Yeumbeul Nord", "Keur Massar", "Diamalaye", "Terrain Bokk Xalaat"];
+const places = ["Yeumbeul", "Guédiawaye", "Diamalaye", "Terrain Bokk Xalaat"];
 
 export default function QuiSommesNousPage() {
   return (
@@ -72,7 +72,7 @@ export default function QuiSommesNousPage() {
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-4 text-base sm:text-lg text-slate-600">
-              Une force vive citoyenne au cœur de Yeumbeul Nord et Keur Massar, guidée par notre devise :
+              Une force vive citoyenne intervenant à Yeumbeul et Guédiawaye, guidée par notre devise :
               <span className="font-bold text-aus-blue-800"> « {content.meta.slogans[0]} »</span>.
             </p>
           </Reveal>

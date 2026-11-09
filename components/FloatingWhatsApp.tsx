@@ -13,7 +13,7 @@ export default function FloatingWhatsApp() {
   )}`;
 
   return (
-    <div className="fixed bottom-6 right-5 z-50 flex items-end gap-3 flex-col sm:flex-row">
+    <div className="fixed bottom-6 right-5 z-50 flex items-end gap-3 flex-col sm:flex-row print:hidden">
       {/* Tooltip on desktop/tablet */}
       {showTooltip && (
         <div className="relative bg-white text-slate-800 text-xs font-medium px-3.5 py-2 rounded-xl shadow-xl border border-slate-200 hidden sm:flex items-center gap-2 opacity-0 [animation:zoom-in_0.5s_cubic-bezier(0.22,1,0.36,1)_2s_forwards,float_6s_ease-in-out_2.5s_infinite]">

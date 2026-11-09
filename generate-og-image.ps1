@@ -76,7 +76,7 @@ if (Test-Path $logoPath) {
 # 5. Bloc de textes à droite (X: 430 -> 1130)
 
 # Badge supérieur localisation & drapeau
-$rectBadge = New-Object System.Drawing.Rectangle(430, 95, 490, 40)
+$rectBadge = New-Object System.Drawing.Rectangle(430, 95, 530, 40)
 $brushBadgeBg = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(40, 255, 255, 255))
 $penBadgeBorder = New-Object System.Drawing.Pen([System.Drawing.Color]::FromArgb(90, 255, 255, 255), 1.5)
 
@@ -89,7 +89,7 @@ $brushBadgeText = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::F
 $sfLeft = New-Object System.Drawing.StringFormat
 $sfLeft.Alignment = [System.Drawing.StringAlignment]::Near
 $sfLeft.LineAlignment = [System.Drawing.StringAlignment]::Center
-$g.DrawString("YEUMBEUL  •  DAKAR  •  SENEGAL", $fontBadge, $brushBadgeText, 450, 115, $sfLeft)
+$g.DrawString("YEUMBEUL  •  GUEDIAWAYE  •  SENEGAL", $fontBadge, $brushBadgeText, 450, 115, $sfLeft)
 
 # Grand Titre Acronyme + Nom Complet
 $fontAcronym = New-Object System.Drawing.Font("Arial", 46, [System.Drawing.FontStyle]::Bold)
@@ -143,7 +143,7 @@ $g.DrawString("SOLIDARITE DE TERRAIN", $fontPill, $brushPillText3, 1012, 356, $s
 $fontDesc = New-Object System.Drawing.Font("Arial", 14, [System.Drawing.FontStyle]::Regular)
 $brushDesc = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(203, 213, 225))
 $rectDesc = New-Object System.Drawing.RectangleF(430, 395, 690, 60)
-$g.DrawString("Consultations medicales gratuites multidisciplinaires, dons de medicaments, sensibilisation bucco-dentaire et panels citoyens a Yeumbeul.", $fontDesc, $brushDesc, $rectDesc)
+$g.DrawString("Consultations medicales gratuites multidisciplinaires, dons de medicaments, sensibilisation bucco-dentaire et panels citoyens a Yeumbeul et Guediawaye.", $fontDesc, $brushDesc, $rectDesc)
 
 # 6. Bandeau inférieur de contact & URL
 $rectBottom = New-Object System.Drawing.Rectangle(0, 520, $w, 110)
@@ -160,7 +160,7 @@ $brushFootSub = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::Fro
 
 # Colonne 1 : Permanence WhatsApp / Tel
 $g.DrawString("Tel / WhatsApp : 76 293 77 54 / 77 157 67 55", $fontFootBold, $brushWhite, 80, 545)
-$g.DrawString("Permanence Yeumbeul", $fontFootSub, $brushFootSub, 80, 575)
+$g.DrawString("Zones d'intervention : Yeumbeul & Guediawaye", $fontFootSub, $brushFootSub, 80, 575)
 
 # Colonne 2 : Partenaires d'impact
 $g.DrawString("Partenaires de terrain", $fontFootBold, $brushWhite, 480, 545)

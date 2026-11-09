@@ -184,7 +184,7 @@ export default function HomePage() {
                 {[
                   { label: "Consultations 100% gratuites", color: "text-emerald-600" },
                   { label: "Partenariat Odontologie UCAD", color: "text-aus-blue-600" },
-                  { label: "Ancrage Keur Massar & Diamalaye", color: "text-aus-orange-600" },
+                  { label: "Zones : Yeumbeul & Guédiawaye", color: "text-aus-orange-600" },
                 ].map((item, i) => (
                   <Reveal key={item.label} delay={650 + i * 100} variant="fade">
                     <div className="flex items-center gap-1.5">
@@ -231,8 +231,8 @@ export default function HomePage() {
                     <span className="text-xs font-extrabold text-aus-blue-900 tracking-wider uppercase mb-1">
                       Association pour l'Unité et la Solidarité
                     </span>
-                    <h2 className="text-xl font-black text-slate-900">AUS – Yeumbeul Nord</h2>
-                    <p className="text-xs text-slate-500 mt-1">Keur Massar • Diamalaye • Dakar, Sénégal</p>
+                    <h2 className="text-xl font-black text-slate-900">AUS – Yeumbeul & Guédiawaye</h2>
+                    <p className="text-xs text-slate-500 mt-1">Yeumbeul • Guédiawaye • Dakar, Sénégal</p>
 
                     <div className="mt-5 w-full pt-4 border-t border-slate-100 grid grid-cols-2 gap-3 text-left">
                       <div className="p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 transition-colors">
@@ -301,7 +301,7 @@ export default function HomePage() {
               Impact Communautaire Chiffré
             </span>
             <h2 className="mt-3 text-2xl sm:text-3xl font-black text-slate-900">
-              Des actions mesurables au service de Yeumbeul Nord
+              Des actions mesurables à Yeumbeul et Guédiawaye
             </h2>
             <p className="mt-2 text-sm sm:text-base text-slate-600">
               Chaque chiffre représente des vies soulagées, des enfants sensibilisés et une jeunesse mobilisée.
@@ -408,11 +408,11 @@ export default function HomePage() {
                   <div className="h-full p-5 rounded-2xl bg-gradient-to-br from-aus-blue-900 to-slate-900 bg-[length:200%_200%] animate-gradient-x text-white flex flex-col justify-between">
                     <div>
                       <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded bg-aus-orange-500/30 text-aus-orange-300">
-                        <MapPin className="w-3 h-3" /> Ancrage Local
+                        <MapPin className="w-3 h-3" /> Zones d'intervention
                       </span>
-                      <h4 className="text-base font-bold text-white mt-2">Yeumbeul Nord & Keur Massar</h4>
+                      <h4 className="text-base font-bold text-white mt-2">Yeumbeul & Guédiawaye</h4>
                       <p className="text-xs text-slate-300 mt-1">
-                        Diamalaye, École Aliou Kébé, Terrain Bokk Xalaat et quartiers environnants.
+                        Interventions sanitaires, éducatives et citoyennes à Yeumbeul et dans tout le département de Guédiawaye.
                       </p>
                     </div>
                     <div className="mt-4 pt-3 border-t border-slate-800 text-[11px] text-emerald-400 font-semibold">

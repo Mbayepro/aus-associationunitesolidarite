@@ -167,16 +167,17 @@ export interface AssociationContent {
 
 export const content: AssociationContent = {
   meta: {
-    siteName: "AUS – Yeumbeul",
+    siteName: "AUS – Yeumbeul & Guédiawaye",
     fullName: "Association pour l'Unité et la Solidarité",
     acronym: "AUS",
     slogans: ["Unis pour un impact durable", "AUS en action"],
     description:
-      "Site officiel de l'Association pour l'Unité et la Solidarité (AUS) à Yeumbeul, Sénégal. Actions communautaires, consultations médicales gratuites, citoyenneté et épanouissement de la jeunesse.",
+      "Site officiel de l'Association pour l'Unité et la Solidarité (AUS), intervenant à Yeumbeul et Guédiawaye (Sénégal). Actions communautaires, consultations médicales gratuites, citoyenneté et épanouissement de la jeunesse.",
     keywords: [
       "AUS",
       "Association Unité Solidarité",
       "Yeumbeul",
+      "Guédiawaye",
       "Diamalaye",
       "Sénégal",
       "Santé solidaire",
@@ -196,43 +197,43 @@ export const content: AssociationContent = {
     email: "ausyeumbeulnord@gmail.com",
     address: "Yeumbeul",
     commune: "Yeumbeul",
-    departement: "Yeumbeul",
+    departement: "Guédiawaye",
     pays: "Sénégal",
     facebookUrl: "https://www.facebook.com/profile.php?id=100054573154913",
     facebookDisplayName: "Association pour l'Unité et la Solidarité - AUS",
     whatsappNumber: "221762937754",
     whatsappNumberSecondary: "221771576755",
-    whatsappMessageIntro: "Bonjour AUS, je souhaite vous contacter au sujet de vos actions communautaires à Yeumbeul.",
+    whatsappMessageIntro: "Bonjour AUS, je souhaite vous contacter au sujet de vos actions communautaires à Yeumbeul et Guédiawaye.",
     googleMapsSearchUrl: "https://maps.google.com/?q=Yeumbeul+Dakar+Senegal",
   },
 
   hero: {
-    badge: "Au cœur de Yeumbeul",
+    badge: "Zones d'intervention : Yeumbeul & Guédiawaye",
     title: "Unis pour un impact",
     highlight: "durable & solidaire",
     subtitle:
-      "L'Association pour l'Unité et la Solidarité (AUS) mobilise les énergies locales pour la santé, l'éducation, le civisme et le développement socio-communautaire de Yeumbeul.",
+      "L'Association pour l'Unité et la Solidarité (AUS) mobilise les énergies locales à Yeumbeul et Guédiawaye pour la santé, l'éducation, le civisme et le développement socio-communautaire.",
     primaryButtonText: "Nous rejoindre",
     secondaryButtonText: "Voir nos actions",
     emergencyCallout: "Grand succès de la Journée Médicale Gratuite du 10 Octobre à l'École Aliou Kébé : découvrez le bilan et les vidéos !",
   },
 
   about: {
-    historyTitle: "Notre histoire et notre ancrage local",
+    historyTitle: "Notre histoire et nos zones d'intervention",
     historyParagraphs: [
-      "Née de la volonté citoyenne de jeunes engagés de Yeumbeul Nord et du département de Keur Massar, l'AUS (Association pour l'Unité et la Solidarité) s'est donné pour vocation d'apporter des réponses concrètes et bienveillantes aux défis quotidiens de nos populations.",
-      "De Diamalaye à Bokk Xalaat en passant par l'ensemble des quartiers environnants, notre engagement s'articule autour de piliers fondamentaux : la santé préventive et curative pour tous, l'accompagnement citoyen de la jeunesse, la cohésion sociale et la protection des personnes vulnérables.",
+      "Née de la volonté citoyenne de jeunes engagés, l'AUS (Association pour l'Unité et la Solidarité) déploie ses actions prioritaires dans ses deux grandes zones d'intervention : Yeumbeul et Guédiawaye, pour apporter des réponses concrètes et bienveillantes aux défis quotidiens des populations.",
+      "De Yeumbeul (Diamalaye, Bokk Xalaat) jusqu'à l'ensemble des communes de Guédiawaye, notre engagement s'articule autour de piliers fondamentaux : la santé préventive et curative pour tous, l'accompagnement citoyen de la jeunesse, la cohésion sociale et la protection des personnes vulnérables.",
       "À travers la devise 'Unis pour un impact durable' et notre cri de ralliement 'AUS en action', nous prouvons chaque jour que la solidarité fraternelle est le moteur le plus puissant de la transformation communautaire.",
     ],
     missionTitle: "Notre Mission & Notre Vision",
     mission:
-      "Fédérer les forces vives de Yeumbeul Nord et Keur Massar pour promouvoir le bien-être communautaire, faciliter l'accès aux soins de santé de qualité, encourager l'émancipation citoyenne des jeunes et bâtir une solidarité agissante et pérenne.",
+      "Fédérer les forces vives de Yeumbeul et Guédiawaye pour promouvoir le bien-être communautaire, faciliter l'accès aux soins de santé de qualité, encourager l'émancipation citoyenne des jeunes et bâtir une solidarité agissante et pérenne.",
     vision:
       "Une communauté unie, solidaire, éduquée et en bonne santé, où chaque citoyen, quel que soit son âge ou son milieu, devient un acteur digne du progrès partagé.",
     values: [
       {
         title: "Unité",
-        description: "Resserrer les liens fraternels entre toutes les couches sociales, les générations et les quartiers de Yeumbeul Nord et Keur Massar.",
+        description: "Resserrer les liens fraternels entre toutes les couches sociales, les générations et les quartiers de Yeumbeul et Guédiawaye.",
         color: "blue",
         icon: "users",
       },
@@ -554,10 +555,10 @@ export const content: AssociationContent = {
       description: "Mise à disposition des infrastructures scolaires pour l'accueil des patients.",
     },
     {
-      name: "Mairie de Yeumbeul Nord & Keur Massar",
+      name: "Collectivités de Yeumbeul & Guédiawaye",
       role: "Appui institutionnel territorial",
-      logoText: "Territoire Keur Massar",
-      description: "Accompagnement institutionnel de la vie associative et citoyenne.",
+      logoText: "Yeumbeul & Guédiawaye",
+      description: "Accompagnement institutionnel de la vie associative et citoyenne dans nos zones d'intervention.",
     },
     {
       name: "Consortium Jeunesse Sénégal",
@@ -577,9 +578,9 @@ export const content: AssociationContent = {
     {
       name: "Coordinateur Général AUS",
       role: "Président / Coordination Générale",
-      bio: "Engagé depuis de nombreuses années pour le développement et la cohésion sociale à Yeumbeul Nord.",
+      bio: "Engagé depuis de nombreuses années pour le développement et la cohésion sociale à Yeumbeul et Guédiawaye.",
       image: "/images/team-1.jpg",
-      phone: "+221 77 157 67 55",
+      phone: "76 293 77 54 / 77 157 67 55",
     },
     {
       name: "Responsable Pôle Santé",
@@ -604,9 +605,9 @@ export const content: AssociationContent = {
   join: {
     title: "Rejoignez l'AUS ou apportez votre soutien",
     subtitle:
-      "Chaque compétence, chaque heure donnée et chaque contribution fait grandir notre quartier. Choisissez votre manière d'agir avec nous !",
+      "Chaque compétence, chaque heure donnée et chaque contribution fait grandir nos communautés à Yeumbeul et Guédiawaye. Choisissez votre manière d'agir avec nous !",
     volunteerBenefits: [
-      "Agir directement pour les enfants et les familles démunies de Yeumbeul Nord",
+      "Agir directement pour les enfants et les familles démunies de Yeumbeul et Guédiawaye",
       "Participer à des actions médicales concrètes de haute utilité publique",
       "Développer ses compétences en gestion de projet associatif et leadership",
       "Faire partie d'une équipe fraternelle, dynamique et reconnue sur le terrain",
