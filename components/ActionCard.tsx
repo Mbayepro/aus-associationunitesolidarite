@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ActionItem } from "@/data/content";
+import { ActionItem, content } from "@/data/content";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import { WhatsAppShareButton } from "@/components/WhatsAppShareButton";
 import {
@@ -173,7 +173,7 @@ export default function ActionCard({ action, featured = false }: ActionCardProps
             />
 
             <a
-              href={`https://wa.me/221771576755?text=${encodeURIComponent(
+              href={`https://wa.me/${content.contact.whatsappNumber}?text=${encodeURIComponent(
                 `Bonjour AUS, je souhaite des informations concernant l'action : ${action.title}`
               )}`}
               target="_blank"

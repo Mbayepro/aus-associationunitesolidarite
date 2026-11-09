@@ -74,7 +74,7 @@ export default function Footer() {
               <div>
                 <h4 className="text-lg font-bold text-white">AUS</h4>
                 <p className="text-xs text-slate-400 uppercase tracking-wider">
-                  Yeumbeul Nord • Keur Massar
+                  Yeumbeul • Sénégal
                 </p>
               </div>
             </div>
@@ -296,7 +296,7 @@ export default function Footer() {
             © {currentYear} AUS – {content.meta.fullName}. Tous droits réservés.
           </p>
           <div className="flex items-center space-x-4">
-            <span className="text-slate-400">Yeumbeul Nord / Keur Massar</span>
+            <span className="text-slate-400">Yeumbeul</span>
             <span>•</span>
             <span className="text-slate-400">Sénégal</span>
           </div>

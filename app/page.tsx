@@ -567,7 +567,7 @@ export default function HomePage() {
               <span className="text-xs font-bold uppercase tracking-widest text-aus-orange-400 bg-orange-950 px-3 py-1 rounded-full border border-orange-800">
                 Permanence & Contacts
               </span>
-              <h2 className="text-3xl font-black text-white">Nous sommes à votre écoute à Yeumbeul Nord</h2>
+              <h2 className="text-3xl font-black text-white">Nous sommes à votre écoute à Yeumbeul</h2>
               <p className="text-sm text-slate-300">
                 Venez nous rencontrer ou contactez-nous pour toute question, proposition ou besoin d'accompagnement sanitaire.
               </p>
@@ -615,7 +615,7 @@ export default function HomePage() {
                   <span>Visiter la page officielle Facebook AUS</span>
                 </a>
                 <div className="mt-4 pt-4 border-t border-slate-700 flex items-center justify-between text-xs text-slate-400">
-                  <span>Yeumbeul Nord / Keur Massar</span>
+                  <span>Yeumbeul, Sénégal</span>
                   <Link href="/contact" className="group inline-flex items-center gap-1 text-aus-orange-400 hover:underline">
                     Page contact détaillée
                     <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />

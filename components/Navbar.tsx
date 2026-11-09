@@ -65,7 +65,7 @@ export default function Navbar() {
             </a>
             <div className="hidden lg:flex items-center gap-1.5 text-slate-300">
               <MapPin className="w-3.5 h-3.5 text-aus-green-500" />
-              <span>Yeumbeul Nord / Keur Massar, Sénégal</span>
+              <span>Yeumbeul, Sénégal</span>
             </div>
           </div>
 
@@ -114,7 +114,7 @@ export default function Navbar() {
                   </span>
                   <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-aus-red-600"></span>
                   <span className="hidden sm:inline-block text-xs font-semibold uppercase tracking-wider text-slate-500">
-                    Yeumbeul Nord
+                    Yeumbeul
                   </span>
                 </div>
                 <span className="text-[11px] sm:text-xs text-slate-600 line-clamp-1 italic font-medium">

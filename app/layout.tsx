@@ -17,8 +17,8 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: `${content.meta.acronym} – ${content.meta.fullName} | Yeumbeul Nord & Keur Massar`,
-    template: `%s | ${content.meta.acronym} – Yeumbeul Nord`,
+    default: `${content.meta.acronym} – ${content.meta.fullName} | Yeumbeul`,
+    template: `%s | ${content.meta.acronym} – Yeumbeul`,
   },
   description: content.meta.description,
   keywords: content.meta.keywords,

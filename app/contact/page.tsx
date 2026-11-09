@@ -15,7 +15,7 @@ import {
 export const metadata: Metadata = {
   title: "Contact – Association pour l'Unité et la Solidarité (AUS)",
   description:
-    "Contactez l'AUS à Yeumbeul Nord / Keur Massar : téléphone 77 157 67 55, email ausyeumbeulnord@gmail.com, page Facebook et permanence.",
+    "Contactez l'AUS à Yeumbeul : téléphones 76 293 77 54 / 77 157 67 55, email ausyeumbeulnord@gmail.com, page Facebook et permanence.",
 };
 
 export default function ContactPage() {
@@ -55,34 +55,60 @@ export default function ContactPage() {
                   <Phone className="w-6 h-6" />
                 </div>
                 <span className="text-xs font-bold uppercase tracking-wider text-slate-400">
-                  Téléphone & WhatsApp
+                  Téléphone & WhatsApp (2 Numéros)
                 </span>
-                <h3 className="text-xl font-bold text-slate-900 mt-1">
-                  {content.contact.phoneDisplay}
+                <h3 className="text-lg sm:text-xl font-bold text-slate-900 mt-1">
+                  76 293 77 54 / 77 157 67 55
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 mt-2">
-                  Joignable 7j/7 pour les urgences sanitaires, adhésions et informations sur nos activités.
+                  Joignable 7j/7 pour les urgences sanitaires, adhésions et informations sur nos activités à Yeumbeul.
                 </p>
               </div>
 
-              <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-2">
-                <a
-                  href={`tel:${content.contact.phone}`}
-                  className="w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center text-slate-800 bg-slate-100 hover:bg-slate-200 transition-colors"
-                >
-                  Appeler directement
-                </a>
-                <a
-                  href={`https://wa.me/${content.contact.whatsappNumber}?text=${encodeURIComponent(
-                    content.contact.whatsappMessageIntro
-                  )}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-shine w-full py-2.5 px-4 rounded-xl text-xs font-bold text-center text-white bg-emerald-600 hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1.5"
-                >
-                  <WhatsAppIcon className="w-4 h-4" />
-                  <span>Ouvrir WhatsApp</span>
-                </a>
+              <div className="mt-6 pt-4 border-t border-slate-100 flex flex-col gap-3">
+                {/* Numéro 1 */}
+                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                  <span className="block text-[11px] font-bold text-slate-500 mb-1">Ligne 1 : 76 293 77 54</span>
+                  <div className="flex gap-2">
+                    <a
+                      href="tel:+221762937754"
+                      className="flex-1 py-1.5 px-2.5 rounded-lg text-xs font-bold text-center text-slate-800 bg-white border border-slate-200 hover:bg-slate-100 transition-colors"
+                    >
+                      Appeler
+                    </a>
+                    <a
+                      href={`https://wa.me/221762937754?text=${encodeURIComponent(content.contact.whatsappMessageIntro)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-1.5 px-2.5 rounded-lg text-xs font-bold text-center text-white bg-emerald-600 hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1"
+                    >
+                      <WhatsAppIcon className="w-3.5 h-3.5" />
+                      <span>WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
+
+                {/* Numéro 2 */}
+                <div className="p-3 bg-slate-50 rounded-xl border border-slate-100">
+                  <span className="block text-[11px] font-bold text-slate-500 mb-1">Ligne 2 : 77 157 67 55</span>
+                  <div className="flex gap-2">
+                    <a
+                      href="tel:+221771576755"
+                      className="flex-1 py-1.5 px-2.5 rounded-lg text-xs font-bold text-center text-slate-800 bg-white border border-slate-200 hover:bg-slate-100 transition-colors"
+                    >
+                      Appeler
+                    </a>
+                    <a
+                      href={`https://wa.me/221771576755?text=${encodeURIComponent(content.contact.whatsappMessageIntro)}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 py-1.5 px-2.5 rounded-lg text-xs font-bold text-center text-white bg-emerald-600 hover:bg-emerald-700 transition-colors flex items-center justify-center gap-1"
+                    >
+                      <WhatsAppIcon className="w-3.5 h-3.5" />
+                      <span>WhatsApp</span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
           </Reveal>
@@ -127,10 +153,10 @@ export default function ContactPage() {
                   Siège & Permanence
                 </span>
                 <h3 className="text-lg font-bold text-slate-900 mt-1">
-                  Yeumbeul Nord / Keur Massar
+                  Yeumbeul
                 </h3>
                 <p className="text-xs sm:text-sm text-slate-600 mt-2">
-                  {content.contact.address} ({content.contact.pays}). Près de l'École Aliou Kébé et du Terrain Bokk Xalaat.
+                  {content.contact.address}, {content.contact.pays}. Près de l'École Aliou Kébé et du Terrain Bokk Xalaat.
                 </p>
               </div>
 

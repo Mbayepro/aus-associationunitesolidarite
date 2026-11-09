@@ -36,7 +36,7 @@ export default function FloatingWhatsApp() {
         href={whatsappUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label="Contacter AUS sur WhatsApp au 77 157 67 55"
+        aria-label="Contacter AUS sur WhatsApp au 76 293 77 54 / 77 157 67 55"
         className="group relative flex items-center justify-center w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-600 via-green-500 to-emerald-400 text-white shadow-lg hover:shadow-2xl hover:scale-110 active:scale-95 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-emerald-400/50"
       >
         {/* Pulsing ring */}

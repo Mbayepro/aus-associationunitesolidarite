@@ -198,8 +198,8 @@ Le projet a été conçu pour se déployer en 1 clic sur **Vercel** :
 
 ## 📞 Permanence AUS
 
-- **Téléphone / WhatsApp :** `+221 77 157 67 55`
+- **Téléphones / WhatsApp :** `+221 76 293 77 54` / `+221 77 157 67 55`
 - **Email :** `ausyeumbeulnord@gmail.com`
-- **Adresse :** Diamalaye, Yeumbeul Nord, Département de Keur Massar, Sénégal
+- **Localisation :** Yeumbeul, Sénégal
 - **Facebook :** [Association pour l'Unité et la Solidarité - AUS](https://www.facebook.com/profile.php?id=100054573154913)
 

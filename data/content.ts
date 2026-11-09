@@ -87,8 +87,10 @@ export interface DonationConfig {
   title: string;
   subtitle: string;
   waveNumber: string;
+  waveNumberSecondary?: string;
   waveRecipient: string;
   orangeMoneyNumber: string;
+  orangeMoneyNumberSecondary?: string;
   orangeMoneyRecipient: string;
   phoneDisplay: string;
   impactExamples: {
@@ -110,6 +112,7 @@ export interface AssociationContent {
   };
   contact: {
     phone: string;
+    phoneSecondary?: string;
     phoneDisplay: string;
     email: string;
     address: string;
@@ -119,6 +122,7 @@ export interface AssociationContent {
     facebookUrl: string;
     facebookDisplayName: string;
     whatsappNumber: string; // Sans le + ni espaces pour lien API wa.me
+    whatsappNumberSecondary?: string;
     whatsappMessageIntro: string;
     googleMapsSearchUrl: string;
   };
@@ -163,17 +167,16 @@ export interface AssociationContent {
 
 export const content: AssociationContent = {
   meta: {
-    siteName: "AUS – Yeumbeul Nord & Keur Massar",
+    siteName: "AUS – Yeumbeul",
     fullName: "Association pour l'Unité et la Solidarité",
     acronym: "AUS",
     slogans: ["Unis pour un impact durable", "AUS en action"],
     description:
-      "Site officiel de l'Association pour l'Unité et la Solidarité (AUS) à Yeumbeul Nord / Keur Massar, Sénégal. Actions communautaires, consultations médicales gratuites, citoyenneté et épanouissement de la jeunesse.",
+      "Site officiel de l'Association pour l'Unité et la Solidarité (AUS) à Yeumbeul, Sénégal. Actions communautaires, consultations médicales gratuites, citoyenneté et épanouissement de la jeunesse.",
     keywords: [
       "AUS",
       "Association Unité Solidarité",
-      "Yeumbeul Nord",
-      "Keur Massar",
+      "Yeumbeul",
       "Diamalaye",
       "Sénégal",
       "Santé solidaire",
@@ -187,26 +190,28 @@ export const content: AssociationContent = {
   },
 
   contact: {
-    phone: "+221771576755",
-    phoneDisplay: "77 157 67 55",
+    phone: "+221762937754",
+    phoneSecondary: "+221771576755",
+    phoneDisplay: "76 293 77 54 / 77 157 67 55",
     email: "ausyeumbeulnord@gmail.com",
-    address: "Diamalaye, Yeumbeul Nord (près du Poste de Santé de Diamalaye)",
-    commune: "Yeumbeul Nord",
-    departement: "Keur Massar",
+    address: "Yeumbeul",
+    commune: "Yeumbeul",
+    departement: "Yeumbeul",
     pays: "Sénégal",
     facebookUrl: "https://www.facebook.com/profile.php?id=100054573154913",
     facebookDisplayName: "Association pour l'Unité et la Solidarité - AUS",
-    whatsappNumber: "221771576755",
-    whatsappMessageIntro: "Bonjour AUS, je souhaite vous contacter au sujet de vos actions communautaires.",
-    googleMapsSearchUrl: "https://maps.google.com/?q=Yeumbeul+Nord+Keur+Massar+Diamalaye+Dakar+Senegal",
+    whatsappNumber: "221762937754",
+    whatsappNumberSecondary: "221771576755",
+    whatsappMessageIntro: "Bonjour AUS, je souhaite vous contacter au sujet de vos actions communautaires à Yeumbeul.",
+    googleMapsSearchUrl: "https://maps.google.com/?q=Yeumbeul+Dakar+Senegal",
   },
 
   hero: {
-    badge: "Au cœur de Yeumbeul Nord & Keur Massar",
+    badge: "Au cœur de Yeumbeul",
     title: "Unis pour un impact",
     highlight: "durable & solidaire",
     subtitle:
-      "L'Association pour l'Unité et la Solidarité (AUS) mobilise les énergies locales pour la santé, l'éducation, le civisme et le développement socio-communautaire de nos quartiers.",
+      "L'Association pour l'Unité et la Solidarité (AUS) mobilise les énergies locales pour la santé, l'éducation, le civisme et le développement socio-communautaire de Yeumbeul.",
     primaryButtonText: "Nous rejoindre",
     secondaryButtonText: "Voir nos actions",
     emergencyCallout: "Grand succès de la Journée Médicale Gratuite du 10 Octobre à l'École Aliou Kébé : découvrez le bilan et les vidéos !",
@@ -618,12 +623,14 @@ export const content: AssociationContent = {
   donations: {
     title: "Soutenez nos actions sur le terrain",
     subtitle:
-      "Chaque don finance directement l'achat de médicaments essentiels, les kits d'hygiène pour les enfants et le déploiement logistique de nos journées citoyennes à Yeumbeul Nord.",
-    waveNumber: "771576755",
-    waveRecipient: "AUS – Yeumbeul Nord",
+      "Chaque don finance directement l'achat de médicaments essentiels, les kits d'hygiène pour les enfants et le déploiement logistique de nos journées citoyennes à Yeumbeul.",
+    waveNumber: "762937754",
+    waveNumberSecondary: "771576755",
+    waveRecipient: "AUS – Yeumbeul",
     orangeMoneyNumber: "771576755",
-    orangeMoneyRecipient: "AUS – Yeumbeul Nord",
-    phoneDisplay: "+221 77 157 67 55",
+    orangeMoneyNumberSecondary: "762937754",
+    orangeMoneyRecipient: "AUS – Yeumbeul",
+    phoneDisplay: "76 293 77 54 / 77 157 67 55",
     impactExamples: [
       {
         amount: "5 000 FCFA",
@@ -651,21 +658,21 @@ export const content: AssociationContent = {
       id: "faq-adhesion",
       question: "Comment puis-je adhérer à l'Association pour l'Unité et la Solidarité (AUS) ?",
       answer:
-        "L'adhésion est ouverte à toute personne partageant nos valeurs de solidarité, d'entraide et de citoyenneté. Vous pouvez remplir le formulaire d'adhésion sur ce site pour être mis en relation directe avec notre bureau via WhatsApp, ou venir nous rencontrer lors de nos réunions publiques à Yeumbeul Nord.",
+        "L'adhésion est ouverte à toute personne partageant nos valeurs de solidarité, d'entraide et de citoyenneté. Vous pouvez remplir le formulaire d'adhésion sur ce site pour être mis en relation directe avec notre bureau via WhatsApp, ou venir nous rencontrer lors de nos réunions publiques à Yeumbeul.",
       category: "Adhésion & Bénévolat",
     },
     {
       id: "faq-geographie",
-      question: "Faut-il obligatoirement résider à Yeumbeul Nord pour participer ?",
+      question: "Faut-il obligatoirement résider à Yeumbeul pour participer ?",
       answer:
-        "Non. Même si notre siège et nos actions prioritaires sont ancrés à Yeumbeul Nord et Keur Massar, de nombreux membres, sympathisants et professionnels de santé viennent de tout Dakar, de l'UCAD, d'autres communes ou de la diaspora sénégalaise.",
+        "Non. Même si notre siège et nos actions prioritaires sont ancrés à Yeumbeul, de nombreux membres, sympathisants et professionnels de santé viennent de tout Dakar, de l'UCAD, d'autres communes ou de la diaspora sénégalaise.",
       category: "Adhésion & Bénévolat",
     },
     {
       id: "faq-sante",
       question: "Je suis professionnel ou étudiant en santé, comment participer aux consultations ?",
       answer:
-        "Nous accueillons avec honneur les médecins généralistes, dentistes, pédiatres, gynécologues, infirmiers, pharmaciens et étudiants en fin de cycle (UCAD et autres facultés). Contactez-nous par WhatsApp ou téléphone au 77 157 67 55 avec l'objet 'Pôle Médical' pour intégrer l'équipe lors des prochaines journées.",
+        "Nous accueillons avec honneur les médecins généralistes, dentistes, pédiatres, gynécologues, infirmiers, pharmaciens et étudiants en fin de cycle (UCAD et autres facultés). Contactez-nous par WhatsApp ou téléphone au 76 293 77 54 ou au 77 157 67 55 avec l'objet 'Pôle Médical' pour intégrer l'équipe lors des prochaines journées.",
       category: "Santé & Actions",
     },
     {
@@ -679,14 +686,14 @@ export const content: AssociationContent = {
       id: "faq-partenariat",
       question: "Notre structure ou école souhaite organiser une action conjointe avec l'AUS. Comment faire ?",
       answer:
-        "Nous collaborons régulièrement avec les postes de santé, les associations de jeunesse, les ONG (Fonds Yaakaar, Impact Hub Dakar, Engage Sénégal) et les établissements scolaires. Écrivez-nous à ausyeumbeulnord@gmail.com ou appelez le 77 157 67 55 pour soumettre un projet de partenariat.",
+        "Nous collaborons régulièrement avec les postes de santé, les associations de jeunesse, les ONG (Fonds Yaakaar, Impact Hub Dakar, Engage Sénégal) et les établissements scolaires. Écrivez-nous à ausyeumbeulnord@gmail.com ou appelez le 76 293 77 54 / 77 157 67 55 pour soumettre un projet de partenariat.",
       category: "Organisation",
     },
     {
       id: "faq-suivi",
       question: "Où puis-je suivre les résultats et les vidéos des actions réalisées ?",
       answer:
-        "Toutes nos activités font l'objet de restitutions publiques sur notre page Facebook officielle, dans la rubrique Vidéos & Galerie de ce site, ainsi que via nos communiqués de presse officiels diffusés dans les médias locaux.",
+        "Toutes nos activités font l'objet de restitutions publiques sur notre page Facebook officielle, dans la rubrique Vidéos & Galerie de ce site, ainsi que via nos communiqués officiels diffusés dans les médias locaux.",
       category: "Organisation",
     },
   ],

@@ -19,18 +19,18 @@ export default function WhatsAppJoinForm() {
   const roles = content.join.rolesAvailable;
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
-  const [location, setLocation] = useState("Yeumbeul Nord / Keur Massar");
+  const [location, setLocation] = useState("Yeumbeul");
   const [role, setRole] = useState(roles[0]);
   const [availability, setAvailability] = useState("Week-ends et événements");
   const [message, setMessage] = useState("");
 
   // Generate clean formatted WhatsApp message
-  const generatedMessage = `*ADHÉSION / SOUTIEN AUS - YEUMBEUL NORD*
+  const generatedMessage = `*ADHÉSION / SOUTIEN AUS - YEUMBEUL*
 Bonjour l'équipe de l'AUS, je souhaite vous rejoindre et apporter ma contribution !
 
 - *Nom & Prénom* : ${fullName || "Non renseigné"}
 - *Téléphone* : ${phone || "Non renseigné"}
-- *Quartier / Ville* : ${location || "Yeumbeul Nord"}
+- *Quartier / Ville* : ${location || "Yeumbeul"}
 - *Rôle souhaité* : ${role}
 - *Disponibilité* : ${availability}
 ${message ? `- *Message personnel* : ${message}\n` : ""}
@@ -178,7 +178,7 @@ _Envoyé depuis le site vitrine officiel de l'AUS_`;
                 type="text"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                placeholder="Ex : Yeumbeul Nord, Diamalaye, Keur Massar..."
+                placeholder="Ex : Yeumbeul, Diamalaye..."
                 className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-aus-blue-600 focus:border-transparent text-sm text-slate-800"
               />
             </div>

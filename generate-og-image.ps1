@@ -1,4 +1,4 @@
-Add-Type -AssemblyName System.Drawing
+﻿Add-Type -AssemblyName System.Drawing
 
 $outputPath = "C:\Demo\AUS\public\og-image.jpg"
 $w = 1200
@@ -14,7 +14,7 @@ $g.TextRenderingHint = [System.Drawing.Text.TextRenderingHint]::AntiAliasGridFit
 # 1. Fond dégradé bleu nuit profond et chaleureux
 $rectFull = New-Object System.Drawing.Rectangle(0, 0, $w, $h)
 $cDarkNavy = [System.Drawing.Color]::FromArgb(10, 25, 52)      # #0A1934
-$cAusBlue  = [System.Drawing.Color]::FromArgb(18, 75, 156)     # #124B9C
+$cAusBlue = [System.Drawing.Color]::FromArgb(18, 75, 156)     # #124B9C
 $gradBg = New-Object System.Drawing.Drawing2D.LinearGradientBrush(
     $rectFull,
     $cDarkNavy,
@@ -34,19 +34,19 @@ $brushGlowGreen = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::F
 $g.FillEllipse($brushGlowGreen, 850, 350, 450, 450)
 
 # 3. Ruban supérieur quadricolore (Bleu, Rouge, Orange, Vert)
-$cRed    = [System.Drawing.Color]::FromArgb(220, 38, 38)
+$cRed = [System.Drawing.Color]::FromArgb(220, 38, 38)
 $cOrange = [System.Drawing.Color]::FromArgb(234, 88, 12)
-$cGreen  = [System.Drawing.Color]::FromArgb(22, 163, 74)
+$cGreen = [System.Drawing.Color]::FromArgb(22, 163, 74)
 
-$brushBlue   = New-Object System.Drawing.SolidBrush($cAusBlue)
-$brushRed    = New-Object System.Drawing.SolidBrush($cRed)
+$brushBlue = New-Object System.Drawing.SolidBrush($cAusBlue)
+$brushRed = New-Object System.Drawing.SolidBrush($cRed)
 $brushOrange = New-Object System.Drawing.SolidBrush($cOrange)
-$brushGreen  = New-Object System.Drawing.SolidBrush($cGreen)
+$brushGreen = New-Object System.Drawing.SolidBrush($cGreen)
 
-$g.FillRectangle($brushBlue,   0,   0, 300, 10)
-$g.FillRectangle($brushRed,    300, 0, 300, 10)
+$g.FillRectangle($brushBlue, 0, 0, 300, 10)
+$g.FillRectangle($brushRed, 300, 0, 300, 10)
 $g.FillRectangle($brushOrange, 600, 0, 300, 10)
-$g.FillRectangle($brushGreen,  900, 0, 300, 10)
+$g.FillRectangle($brushGreen, 900, 0, 300, 10)
 
 # 4. Charger et dessiner le Logo officiel AUS dans un cercle blanc élégant
 $logoPath = "C:\Demo\AUS\public\logo.png"
@@ -89,7 +89,7 @@ $brushBadgeText = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::F
 $sfLeft = New-Object System.Drawing.StringFormat
 $sfLeft.Alignment = [System.Drawing.StringAlignment]::Near
 $sfLeft.LineAlignment = [System.Drawing.StringAlignment]::Center
-$g.DrawString("YEUMBEUL NORD  •  KEUR MASSAR  •  DAKAR", $fontBadge, $brushBadgeText, 450, 115, $sfLeft)
+$g.DrawString("YEUMBEUL  •  DAKAR  •  SENEGAL", $fontBadge, $brushBadgeText, 450, 115, $sfLeft)
 
 # Grand Titre Acronyme + Nom Complet
 $fontAcronym = New-Object System.Drawing.Font("Arial", 46, [System.Drawing.FontStyle]::Bold)
@@ -143,7 +143,7 @@ $g.DrawString("SOLIDARITE DE TERRAIN", $fontPill, $brushPillText3, 1012, 356, $s
 $fontDesc = New-Object System.Drawing.Font("Arial", 14, [System.Drawing.FontStyle]::Regular)
 $brushDesc = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(203, 213, 225))
 $rectDesc = New-Object System.Drawing.RectangleF(430, 395, 690, 60)
-$g.DrawString("Consultations medicales gratuites multidisciplinaires, dons de medicaments, sensibilisation bucco-dentaire et panels citoyens a Yeumbeul Nord.", $fontDesc, $brushDesc, $rectDesc)
+$g.DrawString("Consultations medicales gratuites multidisciplinaires, dons de medicaments, sensibilisation bucco-dentaire et panels citoyens a Yeumbeul.", $fontDesc, $brushDesc, $rectDesc)
 
 # 6. Bandeau inférieur de contact & URL
 $rectBottom = New-Object System.Drawing.Rectangle(0, 520, $w, 110)
@@ -155,12 +155,12 @@ $g.DrawLine($penBottomLine, 0, 520, $w, 520)
 
 # Contacts dans le bandeau inférieur
 $fontFootBold = New-Object System.Drawing.Font("Arial", 15, [System.Drawing.FontStyle]::Bold)
-$fontFootSub  = New-Object System.Drawing.Font("Arial", 11, [System.Drawing.FontStyle]::Regular)
+$fontFootSub = New-Object System.Drawing.Font("Arial", 11, [System.Drawing.FontStyle]::Regular)
 $brushFootSub = New-Object System.Drawing.SolidBrush([System.Drawing.Color]::FromArgb(148, 163, 184))
 
 # Colonne 1 : Permanence WhatsApp / Tel
-$g.DrawString("WhatsApp & Tel : 77 157 67 55", $fontFootBold, $brushWhite, 80, 545)
-$g.DrawString("Permanence Diamalaye / Bokk Xalaat", $fontFootSub, $brushFootSub, 80, 575)
+$g.DrawString("Tel / WhatsApp : 76 293 77 54 / 77 157 67 55", $fontFootBold, $brushWhite, 80, 545)
+$g.DrawString("Permanence Yeumbeul", $fontFootSub, $brushFootSub, 80, 575)
 
 # Colonne 2 : Partenaires d'impact
 $g.DrawString("Partenaires de terrain", $fontFootBold, $brushWhite, 480, 545)

@@ -8,27 +8,21 @@ import WhatsAppIcon from "./icons/WhatsAppIcon";
 
 export function DonationSection({ className = "" }: { className?: string }) {
   const { donations, contact } = content;
-  const [copiedWave, setCopiedWave] = useState(false);
-  const [copiedOm, setCopiedOm] = useState(false);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const [selectedMethod, setSelectedMethod] = useState<"wave" | "om">("wave");
 
-  const copyToClipboard = async (text: string, type: "wave" | "om") => {
+  const copyToClipboard = async (text: string, key: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      if (type === "wave") {
-        setCopiedWave(true);
-        setTimeout(() => setCopiedWave(false), 2500);
-      } else {
-        setCopiedOm(true);
-        setTimeout(() => setCopiedOm(false), 2500);
-      }
+      setCopiedKey(key);
+      setTimeout(() => setCopiedKey(null), 2500);
     } catch {
       // Fallback
     }
   };
 
   const whatsappDonationUrl = `https://wa.me/${contact.whatsappNumber}?text=${encodeURIComponent(
-    `Bonjour AUS, je souhaite faire un don (${selectedMethod === "wave" ? "Wave" : "Orange Money"}) pour soutenir vos actions communautaires à Yeumbeul Nord.`
+    `Bonjour AUS, je souhaite faire un don (${selectedMethod === "wave" ? "Wave" : "Orange Money"}) pour soutenir vos actions communautaires à Yeumbeul.`
   )}`;
 
   return (
@@ -109,34 +103,66 @@ export function DonationSection({ className = "" }: { className?: string }) {
                   </span>
                 </div>
 
-                <div className="mt-5 p-4 bg-white/90 rounded-xl border border-[#1BA2E7]/20 flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-xs text-neutral-500">Numéro de transfert</div>
-                    <div className="text-lg sm:text-2xl font-mono font-bold text-neutral-900">
-                      {donations.phoneDisplay}
+                <div className="mt-5 space-y-3">
+                  <div className="p-4 bg-white/90 rounded-xl border border-[#1BA2E7]/20 flex items-center justify-between gap-3">
+                    <div>
+                      <div className="text-xs text-neutral-500 font-semibold">Numéro 1 (Free / Wave)</div>
+                      <div className="text-lg sm:text-2xl font-mono font-bold text-neutral-900">
+                        76 293 77 54
+                      </div>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard("762937754", "wave-1")}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        copiedKey === "wave-1"
+                          ? "bg-aus-green text-white shadow-sm"
+                          : "bg-[#1BA2E7] text-white hover:bg-[#168ecb] shadow-sm"
+                      }`}
+                    >
+                      {copiedKey === "wave-1" ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Copié !
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          Copier
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => copyToClipboard(donations.waveNumber, "wave")}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                      copiedWave
-                        ? "bg-aus-green text-white shadow-sm"
-                        : "bg-[#1BA2E7] text-white hover:bg-[#168ecb] shadow-sm"
-                    }`}
-                  >
-                    {copiedWave ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        Copié !
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4" />
-                        Copier
-                      </>
-                    )}
-                  </button>
+
+                  <div className="p-4 bg-white/90 rounded-xl border border-[#1BA2E7]/20 flex items-center justify-between gap-3">
+                    <div>
+                      <div className="text-xs text-neutral-500 font-semibold">Numéro 2 (Orange / Wave)</div>
+                      <div className="text-lg sm:text-2xl font-mono font-bold text-neutral-900">
+                        77 157 67 55
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard("771576755", "wave-2")}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        copiedKey === "wave-2"
+                          ? "bg-aus-green text-white shadow-sm"
+                          : "bg-[#1BA2E7] text-white hover:bg-[#168ecb] shadow-sm"
+                      }`}
+                    >
+                      {copiedKey === "wave-2" ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Copié !
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          Copier
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-600">
@@ -172,34 +198,66 @@ export function DonationSection({ className = "" }: { className?: string }) {
                   </span>
                 </div>
 
-                <div className="mt-5 p-4 bg-white/90 rounded-xl border border-[#FF7900]/20 flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-xs text-neutral-500">Numéro de transfert</div>
-                    <div className="text-lg sm:text-2xl font-mono font-bold text-neutral-900">
-                      {donations.phoneDisplay}
+                <div className="mt-5 space-y-3">
+                  <div className="p-4 bg-white/90 rounded-xl border border-[#FF7900]/20 flex items-center justify-between gap-3">
+                    <div>
+                      <div className="text-xs text-neutral-500 font-semibold">Numéro Principal (Orange Money)</div>
+                      <div className="text-lg sm:text-2xl font-mono font-bold text-neutral-900">
+                        77 157 67 55
+                      </div>
                     </div>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard("771576755", "om-1")}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        copiedKey === "om-1"
+                          ? "bg-aus-green text-white shadow-sm"
+                          : "bg-[#FF7900] text-white hover:bg-[#e66c00] shadow-sm"
+                      }`}
+                    >
+                      {copiedKey === "om-1" ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Copié !
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          Copier
+                        </>
+                      )}
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={() => copyToClipboard(donations.orangeMoneyNumber, "om")}
-                    className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
-                      copiedOm
-                        ? "bg-aus-green text-white shadow-sm"
-                        : "bg-[#FF7900] text-white hover:bg-[#e66c00] shadow-sm"
-                    }`}
-                  >
-                    {copiedOm ? (
-                      <>
-                        <Check className="w-4 h-4" />
-                        Copié !
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-4 h-4" />
-                        Copier
-                      </>
-                    )}
-                  </button>
+
+                  <div className="p-4 bg-white/90 rounded-xl border border-[#FF7900]/20 flex items-center justify-between gap-3">
+                    <div>
+                      <div className="text-xs text-neutral-500 font-semibold">Deuxième Ligne</div>
+                      <div className="text-lg sm:text-2xl font-mono font-bold text-neutral-900">
+                        76 293 77 54
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => copyToClipboard("762937754", "om-2")}
+                      className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all ${
+                        copiedKey === "om-2"
+                          ? "bg-aus-green text-white shadow-sm"
+                          : "bg-[#FF7900] text-white hover:bg-[#e66c00] shadow-sm"
+                      }`}
+                    >
+                      {copiedKey === "om-2" ? (
+                        <>
+                          <Check className="w-4 h-4" />
+                          Copié !
+                        </>
+                      ) : (
+                        <>
+                          <Copy className="w-4 h-4" />
+                          Copier
+                        </>
+                      )}
+                    </button>
+                  </div>
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2 text-xs text-neutral-600">
