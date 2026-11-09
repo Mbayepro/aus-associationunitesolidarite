@@ -14,7 +14,6 @@ import {
   Menu,
   X,
   Heart,
-  ShieldCheck,
 } from "lucide-react";
 
 export default function Navbar() {
@@ -71,14 +70,9 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center space-x-3 ml-auto">
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-white/20 text-amber-200 border border-white/15 transition-colors"
-              title="Portail Admin : Historique d'activités & Attestations"
-            >
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-              <span>Admin / Attestations</span>
-            </Link>
+            <span className="hidden sm:inline-block text-xs font-semibold px-2.5 py-0.5 rounded-full bg-aus-orange-600/30 text-aus-orange-200 border border-aus-orange-500/40">
+              #AUSenAction
+            </span>
             <a
               href={content.contact.facebookUrl}
               target="_blank"
@@ -250,15 +244,6 @@ export default function Navbar() {
                   <Phone className="w-4 h-4 text-aus-blue-600" />
                   <span>Appeler directement le {content.contact.phoneDisplay}</span>
                 </a>
-
-                <Link
-                  href="/admin"
-                  onClick={() => setIsOpen(false)}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-lg"
-                >
-                  <ShieldCheck className="w-4 h-4 text-amber-600" />
-                  <span>Portail Admin (Activités & Attestations)</span>
-                </Link>
               </div>
             </div>
           </div>

@@ -1,4 +1,4 @@
-﻿Add-Type -AssemblyName System.Drawing
+Add-Type -AssemblyName System.Drawing
 
 $outputPath = "C:\Demo\AUS\public\og-image.jpg"
 $w = 1200

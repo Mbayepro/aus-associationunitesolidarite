@@ -184,15 +184,6 @@ export default function Footer() {
                   <span>Contactez-nous</span>
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/admin"
-                  className="hover:text-white transition-colors flex items-center gap-2 text-amber-300/90 hover:translate-x-1 duration-200 font-semibold"
-                >
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Espace Admin (Activités & Attestations)</span>
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -303,7 +294,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
           <p>
-            © {currentYear} AUS – {content.meta.fullName}. Tous droits réservés.
+            © {currentYear} AUS – {content.meta.fullName}. Association à but non lucratif régie par la loi sénégalaise.
           </p>
           <div className="flex flex-wrap items-center justify-center gap-3">
             <span className="text-slate-400">Siège : Yeumbeul</span>
@@ -312,10 +303,11 @@ export default function Footer() {
             <span>•</span>
             <Link
               href="/admin"
-              className="inline-flex items-center gap-1 text-amber-400 hover:text-amber-300 font-semibold transition-colors"
+              className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-300 transition-colors"
+              title="Accès réservé au Bureau Exécutif"
             >
               <ShieldCheck className="w-3.5 h-3.5" />
-              Portail Admin
+              <span>Accès Bureau</span>
             </Link>
           </div>
         </div>

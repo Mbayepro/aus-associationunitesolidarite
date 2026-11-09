@@ -10,11 +10,13 @@ import {
   deleteCertificate,
   deleteCustomAction,
   generateCertificateReference,
+  getAdminPin,
   getAllActions,
   getCustomActions,
   getSavedCertificates,
   saveCertificate,
   saveCustomAction,
+  setAdminPin,
 } from "@/lib/adminStore";
 import CertificatePreview from "@/components/CertificatePreview";
 import {
@@ -29,10 +31,12 @@ import {
   FolderPlus,
   History,
   ImagePlus,
+  KeyRound,
   Lock,
   LogOut,
   MapPin,
   Plus,
+  ShieldCheck,
   Sparkles,
   Trash2,
   Upload,
@@ -62,15 +66,24 @@ const QUICK_ROLES = [
 ];
 
 export default function AdminPage() {
-  // Authentification PIN simple (par défaut 2026)
+  // Authentification PIN (modifiable par l'administrateur)
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
 
+  // Changement de code PIN
+  const [currentPinField, setCurrentPinField] = useState("");
+  const [newPinField, setNewPinField] = useState("");
+  const [confirmPinField, setConfirmPinField] = useState("");
+  const [pinChangeMsg, setPinChangeMsg] = useState<{
+    type: "success" | "error";
+    text: string;
+  } | null>(null);
+
   // Navigation par onglets
-  const [activeTab, setActiveTab] = useState<"activities" | "certificates" | "registry">(
-    "activities"
-  );
+  const [activeTab, setActiveTab] = useState<
+    "activities" | "certificates" | "registry" | "security"
+  >("activities");
 
   // Données chargées
   const [customActions, setCustomActions] = useState<ActionItem[]>([]);
@@ -137,14 +150,51 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleaned = pinInput.trim().toLowerCase();
-    if (cleaned === "2026" || cleaned === "aus2026" || cleaned === "aus") {
+    const cleaned = pinInput.trim();
+    const activePin = getAdminPin();
+    if (cleaned === activePin) {
       setIsAuthenticated(true);
       setPinError(false);
+      setPinInput("");
       window.sessionStorage.setItem("aus_admin_auth", "ok");
     } else {
       setPinError(true);
     }
+  };
+
+  const handleChangePin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const activePin = getAdminPin();
+    if (currentPinField.trim() !== activePin) {
+      setPinChangeMsg({
+        type: "error",
+        text: "Le code actuel saisi est incorrect.",
+      });
+      return;
+    }
+    if (newPinField.trim().length < 4) {
+      setPinChangeMsg({
+        type: "error",
+        text: "Le nouveau code doit contenir au moins 4 caractères ou chiffres.",
+      });
+      return;
+    }
+    if (newPinField.trim() !== confirmPinField.trim()) {
+      setPinChangeMsg({
+        type: "error",
+        text: "La confirmation ne correspond pas au nouveau code.",
+      });
+      return;
+    }
+    setAdminPin(newPinField.trim());
+    setCurrentPinField("");
+    setNewPinField("");
+    setConfirmPinField("");
+    setPinChangeMsg({
+      type: "success",
+      text: "Le code d'accès administrateur a été modifié avec succès.",
+    });
+    setTimeout(() => setPinChangeMsg(null), 5000);
   };
 
   const handleLogout = () => {
@@ -380,20 +430,20 @@ export default function AdminPage() {
                 htmlFor="admin-pin"
                 className="block text-xs font-bold text-slate-700 mb-1.5"
               >
-                Code d&apos;accès administrateur
+                Code confidentiel du Bureau Exécutif
               </label>
               <input
                 id="admin-pin"
                 type="password"
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="Entrez le code (ex: 2026)"
+                placeholder="••••••••"
                 className="w-full px-4 py-3 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-aus-blue-600 text-sm font-mono text-center tracking-widest"
                 required
               />
               {pinError && (
                 <p className="text-xs text-red-600 font-semibold mt-1.5 text-center">
-                  Code incorrect. Utilisez le code du bureau (par défaut : 2026).
+                  Code d&apos;accès incorrect. Veuillez réessayer.
                 </p>
               )}
             </div>
@@ -402,20 +452,17 @@ export default function AdminPage() {
               type="submit"
               className="w-full py-3.5 px-6 rounded-xl font-bold text-sm text-white bg-aus-blue-700 hover:bg-aus-blue-800 shadow-lg transition-all"
             >
-              Accéder au tableau de bord
+              Déverrouiller le portail
             </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setPinInput("2026");
-                setIsAuthenticated(true);
-                window.sessionStorage.setItem("aus_admin_auth", "ok");
-              }}
-              className="w-full py-2 text-xs font-semibold text-slate-500 hover:text-aus-blue-700 transition-colors text-center"
-            >
-              Connexion rapide démo (Code : 2026)
-            </button>
+            <div className="pt-2 text-center">
+              <Link
+                href="/"
+                className="text-xs font-semibold text-slate-500 hover:text-aus-blue-700 transition-colors"
+              >
+                ← Retourner à l&apos;accueil public
+              </Link>
+            </div>
           </form>
         </div>
       </div>
@@ -552,6 +599,19 @@ export default function AdminPage() {
           >
             <FileCheck2 className="w-4 h-4" />
             <span>3. Registre des Attestations ({certificates.length})</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveTab("security")}
+            className={`inline-flex items-center gap-2 px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold transition-all ${
+              activeTab === "security"
+                ? "bg-slate-900 text-white shadow-md"
+                : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            <KeyRound className="w-4 h-4" />
+            <span>4. Code d&apos;accès &amp; Sécurité</span>
           </button>
         </div>
 
@@ -1284,7 +1344,99 @@ export default function AdminPage() {
             )}
           </div>
         )}
+
+        {/* ================================================================= */}
+        {/* ONGLET 4 : CHANGER LE CODE D'ACCÈS ADMINISTRATEUR                 */}
+        {/* ================================================================= */}
+        {activeTab === "security" && (
+          <div className="max-w-xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6 print:hidden">
+            <div className="flex items-center gap-3 border-b border-slate-100 pb-4">
+              <div className="w-11 h-11 rounded-2xl bg-aus-blue-50 text-aus-blue-700 flex items-center justify-center">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="text-xs font-bold uppercase text-aus-blue-700">
+                  Sécurité du Portail Bureau
+                </span>
+                <h2 className="text-xl font-black text-slate-900">
+                  Modifier le code d&apos;accès administrateur
+                </h2>
+              </div>
+            </div>
+
+            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+              Vous pouvez personnaliser le code secret permettant d&apos;accéder à cet espace d&apos;administration (par défaut initialisé à <code className="px-1.5 py-0.5 rounded bg-slate-100 font-mono font-bold text-slate-800">2026</code>).
+            </p>
+
+            <form onSubmit={handleChangePin} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-700 mb-1">
+                  Code d&apos;accès actuel *
+                </label>
+                <input
+                  type="password"
+                  value={currentPinField}
+                  onChange={(e) => setCurrentPinField(e.target.value)}
+                  placeholder="Entrez votre code actuel"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-aus-blue-600"
+                  required
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Nouveau code (min. 4 caractères) *
+                  </label>
+                  <input
+                    type="password"
+                    value={newPinField}
+                    onChange={(e) => setNewPinField(e.target.value)}
+                    placeholder="Nouveau code secret"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-aus-blue-600"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Confirmer le nouveau code *
+                  </label>
+                  <input
+                    type="password"
+                    value={confirmPinField}
+                    onChange={(e) => setConfirmPinField(e.target.value)}
+                    placeholder="Répétez le nouveau code"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-aus-blue-600"
+                    required
+                  />
+                </div>
+              </div>
+
+              {pinChangeMsg && (
+                <div
+                  className={`p-3.5 rounded-xl text-xs font-bold flex items-center gap-2 border ${
+                    pinChangeMsg.type === "success"
+                      ? "bg-emerald-50 border-emerald-200 text-emerald-800"
+                      : "bg-red-50 border-red-200 text-red-700"
+                  }`}
+                >
+                  <Check className="w-4 h-4 shrink-0" />
+                  <span>{pinChangeMsg.text}</span>
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="w-full py-3.5 px-5 rounded-xl font-bold text-sm text-white bg-aus-blue-700 hover:bg-aus-blue-800 shadow-md transition-all flex items-center justify-center gap-2"
+              >
+                <KeyRound className="w-4 h-4" />
+                <span>Enregistrer le nouveau code d&apos;accès</span>
+              </button>
+            </form>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+

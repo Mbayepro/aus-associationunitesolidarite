@@ -2,16 +2,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { content } from "@/data/content";
-import ActionCard from "@/components/ActionCard";
+import HomeActionsGrid from "@/components/HomeActionsGrid";
 import GallerySection from "@/components/GallerySection";
-import WhatsAppJoinForm from "@/components/WhatsAppJoinForm";
 import { DonationSection } from "@/components/DonationSection";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
-import Tilt from "@/components/motion/Tilt";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
-import FacebookIcon from "@/components/icons/FacebookIcon";
 import {
   Heart,
   Users,
@@ -22,8 +19,6 @@ import {
   ArrowRight,
   Sparkles,
   CheckCircle,
-  Phone,
-  Mail,
   ChevronRight,
   ChevronDown,
   Globe,
@@ -128,7 +123,7 @@ export default function HomePage() {
             <div className="lg:col-span-7 text-center lg:text-left space-y-6">
               <Reveal delay={100}>
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-aus-blue-100/70 text-aus-blue-900 font-bold text-xs uppercase tracking-wider">
-                  <MapPin className="w-3.5 h-3.5 text-aus-red-600 animate-bounce" />
+                  <MapPin className="w-3.5 h-3.5 text-aus-red-600" />
                   <span>{content.hero.badge}</span>
                 </div>
               </Reveal>
@@ -196,88 +191,61 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: Logo & Hero Card */}
+            {/* Right Column: Logo & Institutional Hero Card */}
             <div className="lg:col-span-5 flex justify-center">
-              <Reveal variant="zoom" delay={300} duration={1100} className="relative w-full max-w-md">
-                {/* Orbiting decorative rings */}
-                <div className="absolute -inset-6 rounded-[2.5rem] border-2 border-dashed border-aus-blue-200/70 animate-spin-slower pointer-events-none" aria-hidden="true" />
-                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-r from-aus-blue-600 via-aus-orange-500 to-aus-green-600 bg-[length:200%_200%] animate-gradient-x opacity-25 blur-xl" aria-hidden="true" />
+              <Reveal variant="zoom" delay={250} duration={900} className="relative w-full max-w-md">
+                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-aus-blue-600/15 via-aus-orange-500/10 to-aus-green-600/15 blur-xl pointer-events-none" aria-hidden="true" />
 
-                <Tilt max={6}>
-                  <div className="relative bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 flex flex-col items-center text-center">
-                    {/* Logo with rotating color ring */}
-                    <div className="relative w-48 h-48 sm:w-56 sm:h-56 mb-5 animate-float">
-                      <div
-                        className="absolute inset-0 rounded-full animate-spin-slow"
-                        style={{
-                          background:
-                            "conic-gradient(from 0deg, #124B9C, #DC2626, #EA580C, #16A34A, #124B9C)",
-                        }}
-                        aria-hidden="true"
+                <div className="relative bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 flex flex-col items-center text-center">
+                  {/* Official Logo Frame */}
+                  <div className="relative w-44 h-44 sm:w-52 sm:h-52 mb-5 rounded-full p-1.5 bg-gradient-to-tr from-aus-blue-700 via-aus-red-600 to-aus-green-600 shadow-md">
+                    <div className="relative w-full h-full rounded-full bg-white p-2 overflow-hidden">
+                      <Image
+                        src="/logo.png"
+                        alt="Logo officiel AUS – Association pour l'Unité et la Solidarité"
+                        fill
+                        sizes="(max-width: 640px) 176px, 208px"
+                        className="object-contain p-1"
+                        priority
                       />
-                      <div className="absolute inset-[5px] rounded-full bg-white" />
-                      <div className="absolute inset-3 rounded-full overflow-hidden">
-                        <Image
-                          src="/logo.png"
-                          alt="Logo officiel AUS – Association pour l'Unité et la Solidarité"
-                          fill
-                          sizes="(max-width: 640px) 192px, 224px"
-                          className="object-contain"
-                          priority
-                        />
-                      </div>
                     </div>
-
-                    <span className="text-xs font-extrabold text-aus-blue-900 tracking-wider uppercase mb-1">
-                      Association pour l'Unité et la Solidarité
-                    </span>
-                    <h2 className="text-xl font-black text-slate-900">AUS – Yeumbeul & Guédiawaye</h2>
-                    <p className="text-xs text-slate-500 mt-1">Yeumbeul • Guédiawaye • Dakar, Sénégal</p>
-
-                    <div className="mt-5 w-full pt-4 border-t border-slate-100 grid grid-cols-2 gap-3 text-left">
-                      <div className="p-3 rounded-xl bg-slate-50 hover:bg-emerald-50 transition-colors">
-                        <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400">
-                          <Calendar className="w-3 h-3" /> Action phare
-                        </span>
-                        <span className="text-xs font-bold text-slate-900">10 Octobre 2026</span>
-                        <span className="block text-[11px] text-emerald-700 font-semibold">Consultation Gratuite (Réalisée)</span>
-                      </div>
-                      <div className="p-3 rounded-xl bg-slate-50 hover:bg-blue-50 transition-colors">
-                        <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400">
-                          <Building2 className="w-3 h-3" /> Lieu central
-                        </span>
-                        <span className="text-xs font-bold text-slate-900">École Aliou Kébé</span>
-                        <span className="block text-[11px] text-aus-blue-700 font-medium">Poste Diamalaye</span>
-                      </div>
-                    </div>
-
-                    <a
-                      href={`https://wa.me/${content.contact.whatsappNumber}?text=${encodeURIComponent(
-                        "Bonjour AUS, je souhaite échanger avec un responsable de l'association."
-                      )}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group mt-5 w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors"
-                    >
-                      <WhatsAppIcon className="w-4 h-4 text-emerald-600 group-hover:scale-110 transition-transform" />
-                      <span>Rejoindre la communauté sur WhatsApp</span>
-                      <ArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
-                    </a>
                   </div>
-                </Tilt>
 
-                {/* Floating badges */}
-                <div className="hidden sm:flex absolute -left-8 top-16 items-center gap-2 px-3 py-2 rounded-xl bg-white shadow-xl border border-slate-100 animate-float [animation-delay:1s]">
-                  <span className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
-                    <Stethoscope className="w-4 h-4 text-emerald-600" />
+                  <span className="text-xs font-extrabold text-aus-blue-900 tracking-wider uppercase mb-1">
+                    Association pour l&apos;Unité et la Solidarité
                   </span>
-                  <span className="text-[11px] font-bold text-slate-800 leading-tight">5 spécialités<br /><span className="font-medium text-slate-500">médicales</span></span>
-                </div>
-                <div className="hidden sm:flex absolute -right-6 bottom-28 items-center gap-2 px-3 py-2 rounded-xl bg-white shadow-xl border border-slate-100 animate-float-slow [animation-delay:2s]">
-                  <span className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
-                    <Heart className="w-4 h-4 text-aus-red-600 fill-current" />
-                  </span>
-                  <span className="text-[11px] font-bold text-slate-800 leading-tight">100%<br /><span className="font-medium text-slate-500">bénévole</span></span>
+                  <h2 className="text-xl font-black text-slate-900">AUS – Yeumbeul &amp; Guédiawaye</h2>
+                  <p className="text-xs text-slate-500 mt-1">Siège : Yeumbeul • Zones : Yeumbeul &amp; Guédiawaye</p>
+
+                  <div className="mt-5 w-full pt-4 border-t border-slate-100 grid grid-cols-2 gap-3 text-left">
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                      <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400">
+                        <Calendar className="w-3 h-3" /> Dernier Bilan
+                      </span>
+                      <span className="text-xs font-bold text-slate-900">10 Octobre 2026</span>
+                      <span className="block text-[11px] text-emerald-700 font-semibold">Consultation Gratuite</span>
+                    </div>
+                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
+                      <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400">
+                        <Building2 className="w-3 h-3" /> Lieu d&apos;impact
+                      </span>
+                      <span className="text-xs font-bold text-slate-900">École Aliou Kébé</span>
+                      <span className="block text-[11px] text-aus-blue-700 font-medium">Poste Diamalaye</span>
+                    </div>
+                  </div>
+
+                  <a
+                    href={`https://wa.me/${content.contact.whatsappNumber}?text=${encodeURIComponent(
+                      "Bonjour AUS, je souhaite échanger avec un responsable de l'association."
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group mt-5 w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors"
+                  >
+                    <WhatsAppIcon className="w-4 h-4 text-emerald-600" />
+                    <span>Contacter la coordination AUS</span>
+                    <ArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
+                  </a>
                 </div>
               </Reveal>
             </div>
@@ -344,16 +312,10 @@ export default function HomePage() {
             tag="AUS sur le Terrain"
             tagClass="text-aus-red-700 bg-red-50 border-red-100"
             title="Nos actions & projets prioritaires"
-            text="Découvrez nos interventions directes pour la santé publique, l'éducation buccale et l'autonomie citoyenne."
-            link={{ href: "/actions", label: "Consulter toutes les actions" }}
+            text="Découvrez nos interventions directes à Yeumbeul et Guédiawaye pour la santé publique, l'éducation bucco-dentaire et l'autonomie citoyenne."
+            link={{ href: "/actions", label: "Consulter tout l'historique" }}
           />
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {content.actions.map((action, i) => (
-              <Reveal key={action.id} delay={i * 130}>
-                <ActionCard action={action} featured={action.highlight} />
-              </Reveal>
-            ))}
-          </div>
+          <HomeActionsGrid />
         </div>
       </section>
 
@@ -530,102 +492,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 8. FORMULAIRE D'ADHÉSION */}
-      <section id="rejoindre" className="relative py-16 sm:py-24 bg-gradient-to-b from-white to-blue-50/50 overflow-hidden">
-        <div className="absolute left-1/2 -translate-x-1/2 top-20 w-[40rem] h-[40rem] rounded-full bg-aus-blue-100/40 blur-3xl animate-blob pointer-events-none" aria-hidden="true" />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="text-center mb-10">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-aus-red-700 bg-red-50 px-3 py-1 rounded-full border border-red-100">
-              Rejoindre la dynamique
-            </span>
-            <h2 className="mt-3 text-3xl sm:text-4xl font-black text-slate-900">
-              Faites entendre votre engagement avec l'AUS
-            </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-600 max-w-xl mx-auto">
-              Que vous soyez médecin, jeune du quartier, résident ou bienfaiteur, votre énergie est la bienvenue !
-            </p>
-          </Reveal>
-          <Reveal variant="zoom" delay={150}>
-            <WhatsAppJoinForm />
-          </Reveal>
-        </div>
-      </section>
+      {/* 8. DONS & SOUTIEN FINANCIER (Wave & Orange Money) */}
+      <DonationSection className="bg-white border-b border-slate-100" />
 
-      {/* 8.bis DONS & SOUTIEN FINANCIER */}
-      <DonationSection className="bg-white border-y border-slate-100" />
-
-      {/* 8.ter FOIRE AUX QUESTIONS */}
+      {/* 9. FOIRE AUX QUESTIONS */}
       <FaqAccordion className="bg-slate-50/50" limit={4} />
-
-      {/* 9. CONTACT */}
-      <section className="relative py-16 bg-slate-900 text-white overflow-hidden">
-        <div className="absolute -left-20 -top-20 w-80 h-80 rounded-full bg-aus-blue-700/30 blur-3xl animate-blob pointer-events-none" aria-hidden="true" />
-        <div className="absolute right-0 bottom-0 w-80 h-80 rounded-full bg-aus-orange-600/20 blur-3xl animate-blob [animation-delay:5s] pointer-events-none" aria-hidden="true" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            <Reveal variant="left" className="lg:col-span-6 space-y-4">
-              <span className="text-xs font-bold uppercase tracking-widest text-aus-orange-400 bg-orange-950 px-3 py-1 rounded-full border border-orange-800">
-                Permanence & Contacts
-              </span>
-              <h2 className="text-3xl font-black text-white">Nous sommes à votre écoute à Yeumbeul</h2>
-              <p className="text-sm text-slate-300">
-                Venez nous rencontrer ou contactez-nous pour toute question, proposition ou besoin d'accompagnement sanitaire.
-              </p>
-
-              <div className="space-y-3 pt-2">
-                {[
-                  { icon: Phone, label: "Téléphone direct", value: content.contact.phoneDisplay, href: `tel:${content.contact.phone}`, box: "bg-aus-blue-800 text-aus-blue-200", big: true },
-                  { icon: Mail, label: "Courriel officiel", value: content.contact.email, href: `mailto:${content.contact.email}`, box: "bg-aus-red-950 text-aus-red-400" },
-                  { icon: MapPin, label: "Adresse de permanence", value: content.contact.address, box: "bg-emerald-950 text-emerald-400" },
-                ].map((c, i) => (
-                  <Reveal key={c.label} delay={150 + i * 100} variant="left">
-                    <div className="group flex items-center gap-3">
-                      <div className={`w-10 h-10 rounded-xl ${c.box} flex items-center justify-center transition-transform duration-300 group-hover:scale-110 group-hover:rotate-6`}>
-                        <c.icon className="w-5 h-5" />
-                      </div>
-                      <div>
-                        <span className="text-xs text-slate-400 block">{c.label}</span>
-                        {c.href ? (
-                          <a href={c.href} className={`${c.big ? "text-lg font-bold" : "text-base font-semibold"} hover:text-aus-orange-400 transition-colors`}>
-                            {c.value}
-                          </a>
-                        ) : (
-                          <span className="text-sm font-semibold">{c.value}</span>
-                        )}
-                      </div>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </Reveal>
-
-            <Reveal variant="right" delay={150} className="lg:col-span-6">
-              <div className="flex flex-col justify-center bg-slate-800/80 backdrop-blur p-6 rounded-3xl border border-slate-700">
-                <h3 className="text-lg font-bold text-white mb-2">Suivez la vie de l'association sur Facebook</h3>
-                <p className="text-xs text-slate-300 mb-4">
-                  Retrouvez nos directs, annonces officielles, vidéos et retours en images de chaque journée de consultation.
-                </p>
-                <a
-                  href={content.contact.facebookUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-shine group w-full inline-flex items-center justify-center gap-2 py-3 px-5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-sm shadow transition-all hover:-translate-y-0.5"
-                >
-                  <FacebookIcon className="w-5 h-5 transition-transform group-hover:scale-110" />
-                  <span>Visiter la page officielle Facebook AUS</span>
-                </a>
-                <div className="mt-4 pt-4 border-t border-slate-700 flex items-center justify-between text-xs text-slate-400">
-                  <span>Yeumbeul, Sénégal</span>
-                  <Link href="/contact" className="group inline-flex items-center gap-1 text-aus-orange-400 hover:underline">
-                    Page contact détaillée
-                    <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

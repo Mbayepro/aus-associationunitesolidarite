@@ -20,8 +20,6 @@ import {
   MapPin,
   ArrowRight,
   CheckCircle2,
-  PlusCircle,
-  Award,
   Heart,
   type LucideIcon,
 } from "lucide-react";
@@ -85,24 +83,8 @@ export default function ActionsPage() {
           </Reveal>
           <Reveal delay={200}>
             <p className="mt-4 text-base sm:text-lg text-slate-600">
-              Des initiatives concrètes organisées à <strong>Yeumbeul</strong> et <strong>Guédiawaye</strong> pour la santé publique, l'éducation bucco-dentaire et l'éveil citoyen.
+              Des initiatives concrètes organisées à <strong>Yeumbeul</strong> et <strong>Guédiawaye</strong> pour la santé publique, l&apos;éducation bucco-dentaire et l&apos;éveil citoyen.
             </p>
-            <div className="mt-4 flex flex-wrap items-center justify-center gap-2.5">
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-aus-blue-800 bg-aus-blue-50 hover:bg-aus-blue-100 border border-aus-blue-200 transition-colors"
-              >
-                <PlusCircle className="w-3.5 h-3.5 text-aus-blue-600" />
-                Ajouter une activité à l'historique
-              </Link>
-              <Link
-                href="/admin"
-                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-bold text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-200 transition-colors"
-              >
-                <Award className="w-3.5 h-3.5 text-amber-600" />
-                Délivrer une attestation
-              </Link>
-            </div>
           </Reveal>
         </div>
 

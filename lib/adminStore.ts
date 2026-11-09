@@ -82,6 +82,26 @@ export const CERTIFICATE_TYPES: Record<
 
 const CUSTOM_ACTIONS_KEY = "aus_admin_custom_actions_v1";
 const CERTIFICATES_KEY = "aus_admin_certificates_v1";
+const ADMIN_PIN_KEY = "aus_admin_pin_v1";
+const DEFAULT_ADMIN_PIN = "2026";
+
+export function getAdminPin(): string {
+  if (typeof window === "undefined") return DEFAULT_ADMIN_PIN;
+  try {
+    const saved = window.localStorage.getItem(ADMIN_PIN_KEY);
+    return saved && saved.trim().length >= 3 ? saved.trim() : DEFAULT_ADMIN_PIN;
+  } catch {
+    return DEFAULT_ADMIN_PIN;
+  }
+}
+
+export function setAdminPin(newPin: string): void {
+  if (typeof window === "undefined") return;
+  const cleaned = newPin.trim();
+  if (cleaned.length >= 3) {
+    window.localStorage.setItem(ADMIN_PIN_KEY, cleaned);
+  }
+}
 
 export function getCustomActions(): ActionItem[] {
   if (typeof window === "undefined") return [];
@@ -173,3 +193,4 @@ export function generateCertificateReference(count?: number): string {
   const randomSuffix = Math.floor(10 + Math.random() * 89);
   return `AUS-${year}-YG-${padded}${randomSuffix}`;
 }
+
