@@ -634,20 +634,20 @@ export const content: AssociationContent = {
     phoneDisplay: "76 293 77 54 / 77 157 67 55",
     impactExamples: [
       {
-        amount: "5 000 FCFA",
-        description: "Médicaments essentiels complets pour 2 enfants ou personnes âgées vulnérables.",
+        amount: "Pharmacie Gratuite",
+        description: "Médicaments essentiels complets distribués gratuitement sur ordonnance aux enfants et personnes âgées vulnérables.",
       },
       {
-        amount: "15 000 FCFA",
-        description: "Kits complets d'hygiène bucco-dentaire et sensibilisation pour une classe d'école.",
+        amount: "Santé Scolaire",
+        description: "Kits complets d'hygiène bucco-dentaire et ateliers de sensibilisation dans les écoles et daaras.",
       },
       {
-        amount: "50 000 FCFA",
-        description: "Matériel médical à usage unique pour 40 consultations spécialisées.",
+        amount: "Soins Spécialisés",
+        description: "Matériel médical et dentaire à usage unique pour nos journées de consultations multidisciplinaires.",
       },
       {
-        amount: "100 000 FCFA",
-        description: "Contribution majeure au stock de pharmacie d'une grande journée médicale de quartier.",
+        amount: "Actions de Terrain",
+        description: "Logistique communautaire pour nos campagnes médicales et citoyennes à Yeumbeul et Guédiawaye.",
       },
     ],
     transparencyNote:

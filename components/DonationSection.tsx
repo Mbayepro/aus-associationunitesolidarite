@@ -1,7 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, Check, Heart, ShieldCheck, ArrowRight, Smartphone, Sparkles, Send } from "lucide-react";
+import {
+  Copy,
+  Check,
+  Heart,
+  ShieldCheck,
+  ArrowRight,
+  Smartphone,
+  Sparkles,
+  CheckCircle2,
+} from "lucide-react";
 import { content } from "@/data/content";
 import Reveal from "./motion/Reveal";
 import WhatsAppIcon from "./icons/WhatsAppIcon";
@@ -293,39 +302,44 @@ export function DonationSection({ className = "" }: { className?: string }) {
             </div>
           </div>
 
-          {/* Colonne Exemples d'Impact */}
+          {/* Colonne Domaines d'Impact (sans montants imposés) */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="bg-gradient-to-br from-aus-blue to-aus-blue/90 rounded-3xl p-6 sm:p-7 text-white shadow-xl shadow-aus-blue/20">
-              <div className="flex items-center gap-2 text-aus-orange text-xs font-bold uppercase tracking-wider mb-2">
+            <div className="bg-gradient-to-br from-aus-blue-800 via-aus-blue-700 to-aus-blue-900 rounded-3xl p-6 sm:p-7 text-white shadow-xl shadow-aus-blue/20 border border-white/10">
+              <div className="flex items-center gap-2 text-aus-orange-400 text-xs font-bold uppercase tracking-wider mb-2">
                 <Sparkles className="w-4 h-4" />
                 Votre impact concret
               </div>
-              <h3 className="text-xl font-bold">À quoi sert votre don ?</h3>
-              <p className="mt-1 text-xs text-blue-100">
-                Chaque franc CFA versé est investi à 100% sur le terrain pour les habitants de Yeumbeul Nord.
+              <h3 className="text-xl font-extrabold">À quoi sert votre soutien ?</h3>
+              <p className="mt-1.5 text-xs text-blue-100 leading-relaxed">
+                Chaque contribution, libre et selon vos moyens, est investie à 100 % sur le terrain pour les familles de <strong>Yeumbeul et Guédiawaye</strong> :
               </p>
 
               <div className="mt-5 space-y-3">
                 {donations.impactExamples.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-3.5 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 flex items-start gap-3 hover:bg-white/15 transition-all"
+                    className="p-3.5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 flex items-start gap-3 hover:bg-white/15 transition-all"
                   >
-                    <span className="font-mono font-bold text-xs px-2.5 py-1 rounded-md bg-white text-aus-blue shrink-0 shadow-sm">
-                      {item.amount}
-                    </span>
-                    <p className="text-xs text-blue-50 leading-relaxed">
-                      {item.description}
-                    </p>
+                    <div className="w-7 h-7 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 flex items-center justify-center shrink-0 mt-0.5">
+                      <CheckCircle2 className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <span className="block text-xs font-extrabold text-white tracking-wide">
+                        {item.amount}
+                      </span>
+                      <p className="text-xs text-blue-100 leading-relaxed mt-0.5">
+                        {item.description}
+                      </p>
+                    </div>
                   </div>
                 ))}
               </div>
 
               <div className="mt-6 pt-5 border-t border-white/15 flex items-center justify-between text-xs">
-                <span className="text-blue-100">Don par chèque ou matériel ?</span>
+                <span className="text-blue-100">Don de médicaments ou matériel ?</span>
                 <a
                   href={`mailto:${contact.email}`}
-                  className="font-bold text-white hover:text-aus-orange inline-flex items-center gap-1 transition-colors"
+                  className="font-bold text-white hover:text-aus-orange-300 inline-flex items-center gap-1 transition-colors"
                 >
                   Contactez-nous
                   <ArrowRight className="w-3.5 h-3.5" />
