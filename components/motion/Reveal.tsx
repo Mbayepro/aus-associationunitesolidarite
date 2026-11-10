@@ -44,10 +44,16 @@ export default function Reveal({
 }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const [introDelay, setIntroDelay] = useState(0);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
+
+    // Pendant l'intro animée, on attend la levée du rideau avant d'animer
+    if (document.documentElement.dataset.intro === "play") {
+      setIntroDelay(1450);
+    }
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       setVisible(true);
@@ -77,7 +83,7 @@ export default function Reveal({
       ref={ref}
       id={id}
       style={{
-        transitionDelay: `${delay}ms`,
+        transitionDelay: `${delay + introDelay}ms`,
         transitionDuration: `${duration}ms`,
         transitionTimingFunction: "cubic-bezier(0.22, 1, 0.36, 1)",
       }}

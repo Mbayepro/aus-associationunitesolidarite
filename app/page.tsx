@@ -8,6 +8,10 @@ import { DonationSection } from "@/components/DonationSection";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import Reveal from "@/components/motion/Reveal";
 import CountUp from "@/components/motion/CountUp";
+import Parallax from "@/components/motion/Parallax";
+import Magnetic from "@/components/motion/Magnetic";
+import SplitWords from "@/components/motion/SplitWords";
+import ImpactMarquee from "@/components/ImpactMarquee";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import {
   Heart,
@@ -93,11 +97,13 @@ export default function HomePage() {
     <div className="flex flex-col min-h-screen">
       {/* 1. HERO SECTION */}
       <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-white to-slate-50/50 pt-8 pb-16 sm:pt-14 sm:pb-24 border-b border-slate-100">
-        {/* Animated background */}
+        {/* Animated background (parallaxe douce) */}
         <div className="absolute inset-0 bg-dots opacity-70 pointer-events-none" aria-hidden="true" />
-        <div className="absolute -top-20 -left-20 w-[26rem] h-[26rem] rounded-full bg-aus-blue-200/50 blur-3xl animate-blob pointer-events-none" aria-hidden="true" />
-        <div className="absolute top-10 right-0 w-[22rem] h-[22rem] rounded-full bg-aus-orange-200/40 blur-3xl animate-blob [animation-delay:3s] pointer-events-none" aria-hidden="true" />
-        <div className="absolute -bottom-24 left-1/3 w-[24rem] h-[24rem] rounded-full bg-aus-green-100/60 blur-3xl animate-blob [animation-delay:6s] pointer-events-none" aria-hidden="true" />
+        <Parallax speed={0.25} className="absolute inset-0 pointer-events-none">
+          <div className="absolute -top-20 -left-20 w-[26rem] h-[26rem] rounded-full bg-aus-blue-200/50 blur-3xl animate-blob" aria-hidden="true" />
+          <div className="absolute top-10 right-0 w-[22rem] h-[22rem] rounded-full bg-aus-orange-200/40 blur-3xl animate-blob [animation-delay:3s]" aria-hidden="true" />
+          <div className="absolute -bottom-24 left-1/3 w-[24rem] h-[24rem] rounded-full bg-aus-green-100/60 blur-3xl animate-blob [animation-delay:6s]" aria-hidden="true" />
+        </Parallax>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Top Announcement Bar */}
@@ -128,12 +134,14 @@ export default function HomePage() {
                 </div>
               </Reveal>
 
-              <Reveal delay={200} variant="blur" duration={1000}>
-                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
-                  {content.hero.title}{" "}
-                  <span className="text-gradient-animated">{content.hero.highlight}</span>
-                </h1>
-              </Reveal>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
+                <SplitWords text={content.hero.title} baseDelay={200} />{" "}
+                <SplitWords
+                  text={content.hero.highlight}
+                  className="text-gradient-animated"
+                  baseDelay={200 + content.hero.title.split(" ").length * 70}
+                />
+              </h1>
 
               <Reveal delay={350}>
                 <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-sm font-bold">
@@ -155,22 +163,26 @@ export default function HomePage() {
               {/* CTAs */}
               <Reveal delay={550}>
                 <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
+                  <Magnetic className="w-full sm:w-auto">
                   <Link
                     href="/rejoindre"
-                    className="btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl text-base font-bold text-white bg-aus-blue-700 hover:bg-aus-blue-800 shadow-lg shadow-aus-blue-700/25 hover:shadow-xl hover:shadow-aus-blue-700/30 hover:-translate-y-0.5 transition-all duration-300 group active:scale-95"
+                    className="btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl text-base font-bold text-white bg-aus-blue-700 hover:bg-aus-blue-800 shadow-lg shadow-aus-blue-700/25 hover:shadow-xl hover:shadow-aus-blue-700/30 transition-all duration-300 group active:scale-95"
                   >
                     <Heart className="w-5 h-5 text-aus-red-400 fill-current group-hover:scale-125 transition-transform" />
                     <span>{content.hero.primaryButtonText}</span>
                     <ArrowRight className="w-4 h-4 ml-0.5 group-hover:translate-x-1 transition-transform" />
                   </Link>
+                  </Magnetic>
 
+                  <Magnetic className="w-full sm:w-auto" strength={0.2}>
                   <Link
                     href="/actions"
-                    className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl text-base font-bold text-slate-800 bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-aus-blue-300 shadow-sm hover:-translate-y-0.5 transition-all duration-300"
+                    className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl text-base font-bold text-slate-800 bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-aus-blue-300 shadow-sm transition-all duration-300"
                   >
                     <span>{content.hero.secondaryButtonText}</span>
                     <ChevronRight className="w-4 h-4 text-slate-500 group-hover:translate-x-1 transition-transform" />
                   </Link>
+                  </Magnetic>
                 </div>
               </Reveal>
 
@@ -193,6 +205,7 @@ export default function HomePage() {
 
             {/* Right Column: Logo & Institutional Hero Card */}
             <div className="lg:col-span-5 flex justify-center">
+              <Parallax speed={0.08} className="w-full max-w-md">
               <Reveal variant="zoom" delay={250} duration={900} className="relative w-full max-w-md">
                 <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-aus-blue-600/15 via-aus-orange-500/10 to-aus-green-600/15 blur-xl pointer-events-none" aria-hidden="true" />
 
@@ -248,6 +261,7 @@ export default function HomePage() {
                   </a>
                 </div>
               </Reveal>
+              </Parallax>
             </div>
           </div>
 
@@ -260,6 +274,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Bandeau de typographie cinétique */}
+      <ImpactMarquee />
 
       {/* 2. CHIFFRES CLÉS */}
       <section id="chiffres" className="py-12 sm:py-16 bg-white border-b border-slate-100 scroll-mt-24">
@@ -282,7 +299,7 @@ export default function HomePage() {
               const Icon = s.icon;
               return (
                 <Reveal key={idx} delay={idx * 120} variant="up">
-                  <div className="group relative h-full overflow-hidden bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
+                  <div className="spotlight group relative h-full overflow-hidden bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
                     <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-gradient-to-br from-aus-blue-100/0 to-aus-orange-100/0 group-hover:from-aus-blue-100/60 group-hover:to-aus-orange-100/60 transition-all duration-700" aria-hidden="true" />
                     <div className="relative flex items-center justify-between mb-4">
                       <div className={`p-3 rounded-xl ${s.bg} shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6`}>
@@ -353,7 +370,7 @@ export default function HomePage() {
                   const Icon = valueIcons[val.icon] ?? Heart;
                   return (
                     <Reveal key={idx} delay={idx * 100} variant="right">
-                      <div className="group h-full p-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-500">
+                      <div className="spotlight group h-full p-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-500">
                         <div className="flex items-center gap-3 mb-2">
                           <span className={`w-9 h-9 rounded-xl ${valueColors[val.color]} text-white flex items-center justify-center shadow-sm transition-transform duration-500 group-hover:rotate-[-10deg] group-hover:scale-110`}>
                             <Icon className="w-[18px] h-[18px]" />
@@ -419,9 +436,9 @@ export default function HomePage() {
               <Reveal key={item.id} delay={i * 130}>
                 <Link
                   href={`/actualites#${item.id}`}
-                  className="group h-full bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between"
+                  className="spotlight group h-full bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between"
                 >
-                  <div className="relative aspect-[16/10] w-full bg-slate-100 overflow-hidden">
+                  <div className="img-reveal relative aspect-[16/10] w-full bg-slate-100 overflow-hidden">
                     <Image
                       src={item.image}
                       alt={item.title}

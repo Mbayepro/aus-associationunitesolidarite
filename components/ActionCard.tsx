@@ -53,10 +53,10 @@ export default function ActionCard({ action, featured = false }: ActionCardProps
 
   return (
     <div
-      className={`group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col ${theme.border} transform hover:-translate-y-1.5`}
+      className={`spotlight group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col ${theme.border} transform hover:-translate-y-1.5`}
     >
       {/* Action Image & Badges */}
-      <div className="relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-slate-100">
+      <div className="img-reveal relative aspect-[16/10] sm:aspect-[16/9] w-full overflow-hidden bg-slate-100">
         <Image
           src={action.image}
           alt={action.title}
@@ -159,10 +159,10 @@ export default function ActionCard({ action, featured = false }: ActionCardProps
         <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
           <Link
             href="/rejoindre"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-aus-blue-700 hover:text-aus-blue-900 transition-colors"
+            className="group/cta inline-flex items-center gap-1.5 text-xs font-bold text-aus-blue-700 hover:text-aus-blue-900 transition-colors"
           >
             <span>Soutenir</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 transition-transform duration-300 group-hover/cta:translate-x-1" />
           </Link>
 
           <div className="flex items-center gap-2">

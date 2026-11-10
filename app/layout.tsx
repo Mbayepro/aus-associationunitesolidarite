@@ -4,6 +4,12 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
 import ScrollProgress from "@/components/motion/ScrollProgress";
+import IntroSplash from "@/components/motion/IntroSplash";
+import MotionObserver from "@/components/motion/MotionObserver";
+import BackToTop from "@/components/motion/BackToTop";
+
+/** Script exécuté avant l'affichage : décide si l'intro doit être jouée (sans flash). */
+const motionBootScript = `try{var d=document.documentElement;var r=window.matchMedia('(prefers-reduced-motion: reduce)').matches;d.dataset.intro=(r||sessionStorage.getItem('aus_intro_seen'))?'seen':'play';d.classList.add('motion-ready');}catch(e){}`;
 import { content } from "@/data/content";
 
 const siteUrl =
@@ -70,9 +76,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" data-scroll-behavior="smooth" className="scroll-smooth">
+    <html lang="fr" data-scroll-behavior="smooth" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: motionBootScript }} />
+      </head>
       <body className="min-h-screen flex flex-col bg-white text-slate-900 font-sans antialiased selection:bg-aus-blue-700 selection:text-white">
+        <IntroSplash />
+        <MotionObserver />
         <ScrollProgress />
+        <BackToTop />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

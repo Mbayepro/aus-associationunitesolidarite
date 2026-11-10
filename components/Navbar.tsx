@@ -19,13 +19,28 @@ import {
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const pathname = usePathname();
 
+  // En-tête intelligent : se masque en descendant, réapparaît en remontant
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+    let lastY = window.scrollY;
+    let ticking = false;
+    const update = () => {
+      const y = window.scrollY;
+      setScrolled(y > 20);
+      if (y > lastY + 6 && y > 240) setHidden(true);
+      else if (y < lastY - 6 || y < 120) setHidden(false);
+      lastY = y;
+      ticking = false;
     };
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -44,7 +59,11 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full transition-all duration-300">
+    <header
+      className={`sticky top-0 z-50 w-full transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+        hidden && !isOpen ? "-translate-y-full" : "translate-y-0"
+      }`}
+    >
       {/* Top Banner Contact Bar - hidden on small mobile, visible from sm */}
       <div className="bg-aus-blue-900 text-white text-xs sm:text-sm py-2 px-4 sm:px-6 border-b border-aus-blue-800">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
@@ -89,8 +108,8 @@ export default function Navbar() {
 
       {/* Main Navbar */}
       <nav
-        className={`w-full bg-white transition-all duration-300 ${
-          scrolled ? "shadow-md py-2.5" : "shadow-sm py-3.5"
+        className={`w-full transition-all duration-300 ${
+          scrolled ? "bg-white/85 backdrop-blur-md shadow-md py-2.5" : "bg-white shadow-sm py-3.5"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
