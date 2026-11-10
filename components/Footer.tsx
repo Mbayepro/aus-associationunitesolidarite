@@ -12,7 +12,6 @@ import {
   Calendar,
   ExternalLink,
   ArrowRight,
-  ShieldCheck,
 } from "lucide-react";
 
 export default function Footer() {
@@ -300,15 +299,6 @@ export default function Footer() {
             <span className="text-slate-400">Siège : Yeumbeul</span>
             <span>•</span>
             <span className="text-slate-400">Zones : Yeumbeul & Guédiawaye</span>
-            <span>•</span>
-            <Link
-              href="/admin"
-              className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-300 transition-colors"
-              title="Accès réservé au Bureau Exécutif"
-            >
-              <ShieldCheck className="w-3.5 h-3.5" />
-              <span>Accès Bureau</span>
-            </Link>
           </div>
         </div>
       </div>
