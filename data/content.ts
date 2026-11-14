@@ -187,7 +187,7 @@ export const content: AssociationContent = {
       "Impact Hub Dakar",
       "Engage Sénégal",
     ],
-    url: "https://aus-associationunitesolidarite.vercel.app",
+    url: "https://associationpourluniteetlasolidarite.com",
   },
 
   contact: {
