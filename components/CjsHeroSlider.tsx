@@ -30,7 +30,7 @@ const HERO_SLIDES = [
     tag: "Jàng & Prévention • Écoles & Daaras",
     title: "Santé solidaire : un sourire sain, un avenir radieux pour chaque enfant",
     subtitle:
-      "Sensibilisation à l'hygiène bucco-dentaire et distribution de centaines de kits dentaires gratuits aux élèves avec le soutien du Fonds Yaakaar.",
+      "Sensibilisation à l'hygiène bucco-dentaire et distribution gratuite de kits de brossage aux élèves avec le soutien du Fonds Yaakaar.",
     accent: "from-amber-300 to-orange-400",
   },
   {
@@ -46,7 +46,7 @@ const HERO_SLIDES = [
     tag: "Bennoo • Solidarité de Terrain",
     title: "Unis pour un impact durable auprès des familles vulnérables",
     subtitle:
-      "Plus de 1 000 résidents accompagnés grâce à l'engagement bénévole des médecins, dentistes de l'UCAD et jeunes leaders de nos quartiers.",
+      "Des familles, enfants et personnes âgées accompagnés grâce à l'engagement bénévole des médecins, dentistes de l'UCAD et jeunes leaders de nos quartiers.",
     accent: "from-rose-300 to-orange-300",
   },
 ];
@@ -241,3 +241,4 @@ export default function CjsHeroSlider() {
     </section>
   );
 }
+

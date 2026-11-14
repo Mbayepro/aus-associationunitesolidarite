@@ -266,10 +266,10 @@ export const content: AssociationContent = {
 
   stats: [
     {
-      value: "2 500+",
-      label: "Bénéficiaires touchés",
-      subtext: "Lors de nos journées médicales et actions sociales",
-      icon: "users",
+      value: "100%",
+      label: "Soins & Médicaments Gratuits",
+      subtext: "Consultations et ordonnances offertes sans frais aux patients",
+      icon: "heart",
     },
     {
       value: "5",
@@ -278,15 +278,15 @@ export const content: AssociationContent = {
       icon: "stethoscope",
     },
     {
-      value: "100%",
-      label: "Bénévolat engagé",
-      subtext: "Membres dévoués pour le quartier",
-      icon: "heart",
+      value: "2",
+      label: "Zones d'intervention",
+      subtext: "Yeumbeul & Guédiawaye au cœur de nos actions",
+      icon: "users",
     },
     {
-      value: "6+",
-      label: "Partenaires clés",
-      subtext: "UCAD Odontologie, Poste de santé, Impact Hub, Engage",
+      value: "100%",
+      label: "Engagement bénévole",
+      subtext: "Praticiens, étudiants UCAD et membres dévoués sur le terrain",
       icon: "award",
     },
   ],
@@ -405,7 +405,7 @@ export const content: AssociationContent = {
       author: "Comité de pilotage AUS Santé",
       category: "Santé & Prévention",
       summary:
-        "Plus de 1000 patients consultés gratuitement en chirurgie dentaire, médecine générale, pédiatrie, gynécologie et gériatrie avec don gracieux de médicaments.",
+        "De nombreux patients consultés gratuitement en chirurgie dentaire, médecine générale, pédiatrie, gynécologie et gériatrie avec don gracieux de médicaments.",
       content:
         "La grande journée de santé communautaire organisée par l'AUS à l'École Aliou Kébé (Terrain Bokk Xalaat) a rencontré un franc succès. En partenariat avec la promotion sortante d'Odontologie de l'UCAD et le personnel du Poste de Santé de Diamalaye, les populations vulnérables ont été soignées avec bienveillance et ont reçu gratuitement leurs ordonnances complètes.",
       image: "/images/news-1.jpg",
@@ -418,20 +418,20 @@ export const content: AssociationContent = {
       author: "Pôle Jeunesse & Projets",
       category: "Partenariat & Impact",
       summary:
-        "Grâce au soutien d'Impact Hub Dakar, des centaines d'enfants de Yeumbeul Nord ont bénéficié de soins bucco-dentaires et de kits offerts.",
+        "Grâce au soutien d'Impact Hub Dakar, les enfants des écoles et daaras ont bénéficié de séances d'hygiène bucco-dentaire et de kits offerts.",
       content:
-        "Le partenariat avec le Fonds Yaakaar (Impact Hub Dakar) a permis d'investir les écoles et Daaras pour sensibiliser aux maladies parodontales et aux caries infantiles. Une démonstration concrète de la synergie entre société civile et incubateurs au profit de la banlieue dakaroise.",
+        "Le partenariat avec le Fonds Yaakaar (Impact Hub Dakar) a permis d'investir les écoles et Daaras pour sensibiliser aux maladies parodontales et aux caries infantiles. Une démonstration concrète de la synergie entre société civile et incubateurs au profit de Yeumbeul et Guédiawaye.",
       image: "/images/news-2.jpg",
       readTime: "2 min de lecture",
     },
     {
       id: "restitution-panel-engage-senegal",
-      title: "Restitution du Panel Citoyen : Les jeunes au cœur des décisions de Yeumbeul Nord",
+      title: "Restitution du Panel Citoyen : Les jeunes au cœur des décisions locales",
       date: "2026-05-10",
       author: "Commission Citoyenneté",
       category: "Engagement Civique",
       summary:
-        "Le rapport issu du panel avec Engage Sénégal formule 12 recommandations concrètes pour le cadre de vie et la jeunesse de Keur Massar.",
+        "Le rapport issu du panel avec Engage Sénégal formule des recommandations concrètes pour le cadre de vie et la jeunesse de Yeumbeul et Guédiawaye.",
       content:
         "L'AUS a transmis aux autorités communales les conclusions du grand panel citoyen. Le document insiste sur la création d'espaces dédiés aux initiatives de jeunes, l'éclairage public des zones sensibles et la pérennisation des journées de nettoiement (Set-Setal).",
       image: "/images/news-3.jpg",

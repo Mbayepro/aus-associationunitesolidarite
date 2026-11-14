@@ -155,9 +155,9 @@ export default function CjsPillarBento() {
             ))}
           </div>
 
-          {/* Mosaïque Bento CJS : Alternance de Cartes Dégradées (Chiffres 65px) & Cartes Photos Terrain */}
+          {/* Mosaïque Bento CJS : Uniquement des faits réels vérifiables (aucun chiffre inventé) */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-            {/* COLONNE 1 : Carte Compteur Émeraude + Carte Photo Terrain */}
+            {/* COLONNE 1 : Carte Soins 100% Gratuits + Carte Photo Terrain */}
             <div className="flex flex-col gap-5">
               <Reveal variant="left">
                 <div className="group relative min-h-[225px] rounded-[30px] p-7 flex flex-col justify-end overflow-hidden border border-white/25 bg-gradient-to-b from-emerald-600/90 to-teal-900/95 shadow-xl transition-all duration-500 hover:-translate-y-1">
@@ -169,14 +169,14 @@ export default function CjsPillarBento() {
                     className="object-cover opacity-20 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700"
                   />
                   <div className="relative z-10">
-                    <div className="text-5xl sm:text-[62px] font-black text-white leading-none tracking-tight">
-                      <CountUp value={content.stats[0]?.value || "+1000"} />
+                    <div className="text-4xl sm:text-5xl font-black text-white leading-none tracking-tight">
+                      <CountUp value="100%" /> Gratuit
                     </div>
                     <h3 className="mt-2 text-lg sm:text-xl font-bold text-white">
-                      {content.stats[0]?.label || "Personnes touchées"}
+                      Consultations &amp; Médicaments offerts
                     </h3>
                     <p className="text-xs text-emerald-100/90 mt-1">
-                      {content.stats[0]?.subtext}
+                      Prise en charge médicale et ordonnances distribuées sans frais aux familles
                     </p>
                   </div>
                 </div>
@@ -204,7 +204,7 @@ export default function CjsPillarBento() {
               </Reveal>
             </div>
 
-            {/* COLONNE 2 : Carte Photo Sourire Enfants + Carte Compteur Bleu AUS */}
+            {/* COLONNE 2 : Carte Photo Sourire Enfants + Carte Zones d'Intervention */}
             <div className="flex flex-col gap-5">
               <Reveal variant="down" delay={80}>
                 <div className="group relative min-h-[225px] rounded-[30px] overflow-hidden border border-white/15 shadow-xl">
@@ -231,46 +231,46 @@ export default function CjsPillarBento() {
                 <div className="group relative min-h-[225px] rounded-[30px] p-7 flex flex-col justify-end overflow-hidden border border-white/25 bg-gradient-to-b from-aus-blue-600/95 to-aus-blue-900/95 shadow-xl transition-all duration-500 hover:-translate-y-1">
                   <Image
                     src="/images/real-action-3.jpg"
-                    alt="Kits dentaires distribués"
+                    alt="Écoles et quartiers de Yeumbeul et Guédiawaye"
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover opacity-20 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700"
                   />
                   <div className="relative z-10">
-                    <div className="text-5xl sm:text-[62px] font-black text-white leading-none tracking-tight">
-                      <CountUp value={content.stats[2]?.value || "+500"} />
+                    <div className="text-3xl sm:text-4xl font-black text-white leading-tight tracking-tight">
+                      Yeumbeul &amp; Guédiawaye
                     </div>
-                    <h3 className="mt-2 text-lg sm:text-xl font-bold text-white">
-                      {content.stats[2]?.label || "Enfants sensibilisés"}
+                    <h3 className="mt-2 text-base sm:text-lg font-bold text-amber-300">
+                      Nos zones d&apos;intervention prioritaires
                     </h3>
                     <p className="text-xs text-blue-100/90 mt-1">
-                      {content.stats[2]?.subtext}
+                      Actions médicales, prévention scolaire dans les écoles &amp; daaras et panels citoyens
                     </p>
                   </div>
                 </div>
               </Reveal>
             </div>
 
-            {/* COLONNE 3 : Carte Compteur Orange + Carte Compteur Rouge/Bénévoles */}
+            {/* COLONNE 3 : Carte 5 Spécialités Médicales + Carte 100% Bénévole */}
             <div className="flex flex-col gap-5">
               <Reveal variant="right" delay={140}>
                 <div className="group relative min-h-[225px] rounded-[30px] p-7 flex flex-col justify-end overflow-hidden border border-white/25 bg-gradient-to-b from-aus-orange-500/95 to-amber-800/95 shadow-xl transition-all duration-500 hover:-translate-y-1">
                   <Image
                     src="/images/real-panel-1.jpg"
-                    alt="Spécialités médicales et panels citoyens"
+                    alt="Spécialités médicales mobilisées"
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover opacity-20 group-hover:opacity-35 group-hover:scale-105 transition-all duration-700"
                   />
                   <div className="relative z-10">
                     <div className="text-5xl sm:text-[62px] font-black text-white leading-none tracking-tight">
-                      <CountUp value={content.stats[1]?.value || "5"} />
+                      <CountUp value="5" />
                     </div>
                     <h3 className="mt-2 text-lg sm:text-xl font-bold text-white">
-                      {content.stats[1]?.label || "Spécialités médicales"}
+                      Spécialités médicales
                     </h3>
                     <p className="text-xs text-amber-100/95 mt-1">
-                      {content.stats[1]?.subtext}
+                      Chirurgie dentaire, médecine générale, gériatrie, pédiatrie &amp; gynécologie
                     </p>
                   </div>
                 </div>
@@ -286,14 +286,14 @@ export default function CjsPillarBento() {
                     className="object-cover opacity-25 group-hover:opacity-40 group-hover:scale-105 transition-all duration-700"
                   />
                   <div className="relative z-10">
-                    <div className="text-5xl sm:text-[62px] font-black text-white leading-none tracking-tight">
-                      <CountUp value={content.stats[3]?.value || "100%"} />
+                    <div className="text-4xl sm:text-5xl font-black text-white leading-none tracking-tight">
+                      <CountUp value="100%" /> Bénévole
                     </div>
                     <h3 className="mt-2 text-lg sm:text-xl font-bold text-white">
-                      {content.stats[3]?.label || "Engagement citoyen"}
+                      Engagement citoyen &amp; solidaire
                     </h3>
                     <p className="text-xs text-rose-100/90 mt-1">
-                      {content.stats[3]?.subtext}
+                      Médecins, étudiants d&apos;Odontologie de l&apos;UCAD et jeunes leaders dévoués
                     </p>
                   </div>
                 </div>
@@ -305,3 +305,4 @@ export default function CjsPillarBento() {
     </>
   );
 }
+

@@ -139,7 +139,7 @@ export default function ActionsPage() {
                   <MapPin className="w-4 h-4 mt-1 flex-shrink-0 text-aus-orange-400" />
                   <span>
                     <strong>École Aliou Kébé</strong>, près du Poste de Santé de Diamalaye (Terrain Bokk Xalaat).
-                    Un succès retentissant avec la <strong>promotion sortante d'Odontologie de l'UCAD</strong> et le Poste de Santé de Diamalaye, ayant offert des soins complets à plus de 1000 résidents.
+                    Un succès retentissant avec la <strong>promotion sortante d&apos;Odontologie de l&apos;UCAD</strong> et le Poste de Santé de Diamalaye, ayant offert des consultations spécialisées et un don gratuit de médicaments aux résidents.
                   </span>
                 </p>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-2 text-xs">
