@@ -1,39 +1,68 @@
 import React from "react";
-import { Sparkle } from "lucide-react";
+import { Sparkle, HeartHandshake, Stethoscope } from "lucide-react";
 
-const WORDS = [
-  "Santé gratuite",
-  "Solidarité",
-  "Citoyenneté",
-  "Jeunesse engagée",
-  "Yeumbeul",
-  "Guédiawaye",
+const TOP_ITEMS = [
+  "Wérgu Yaram • Santé Gratuite",
+  "Bokk • Inclusion & Citoyenneté",
+  "Jàng • Sensibilisation & Écoles",
+  "Ligeey • Solidarité de Terrain",
+  "Yeumbeul & Guédiawaye",
   "Unis pour un impact durable",
 ];
 
-/** Bandeau de typographie cinétique défilant aux couleurs de l'AUS. */
+const BOTTOM_ITEMS = [
+  "Consultations Médicales Multidisciplinaires",
+  "Don Gratuit de Médicaments",
+  "Partenariat Odontologie UCAD",
+  "Poste de Santé de Diamalaye",
+  "Fonds Yaakaar • Impact Hub Dakar",
+  "Consortium Jeunesse Sénégal",
+  "Engage Sénégal",
+];
+
+/** Double bandeau défilant en sens opposé (style dynamique CJS). */
 export default function ImpactMarquee() {
-  const loop = [...WORDS, ...WORDS];
+  const topLoop = [...TOP_ITEMS, ...TOP_ITEMS];
+  const bottomLoop = [...BOTTOM_ITEMS, ...BOTTOM_ITEMS];
+
   return (
-    <section
-      aria-hidden="true"
-      className="relative py-5 sm:py-7 bg-aus-blue-900 overflow-hidden border-y border-aus-blue-800"
-    >
-      <div className="absolute inset-0 bg-gradient-to-r from-aus-blue-900 via-transparent to-aus-blue-900 z-10 pointer-events-none" />
-      <div className="flex w-max animate-marquee">
-        {loop.map((word, i) => (
-          <span
-            key={i}
-            className={`flex items-center gap-6 sm:gap-10 pr-6 sm:pr-10 text-2xl sm:text-4xl font-black uppercase tracking-tight whitespace-nowrap ${
-              i % 2 === 0 ? "text-white" : "text-stroke-white"
-            }`}
-          >
-            {word}
-            <Sparkle className="w-5 h-5 sm:w-6 sm:h-6 text-aus-orange-500 fill-current" />
-          </span>
-        ))}
+    <section aria-hidden="true" className="relative overflow-hidden select-none">
+      {/* Bandeau 1 : Défilement vers la gauche (Bleu profond & Émeraude) */}
+      <div className="relative py-4 sm:py-5 bg-[#031529] border-y border-white/10 overflow-hidden">
+        <div className="flex w-max animate-marquee hover:[animation-play-state:paused]">
+          {topLoop.map((word, i) => (
+            <span
+              key={`top-${i}`}
+              className={`flex items-center gap-5 sm:gap-8 pr-5 sm:pr-8 text-lg sm:text-2xl font-black uppercase tracking-wider whitespace-nowrap ${
+                i % 2 === 0 ? "text-white" : "text-emerald-400"
+              }`}
+            >
+              {word}
+              <Sparkle className="w-4 h-4 sm:w-5 sm:h-5 text-aus-orange-500 fill-current shrink-0" />
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Bandeau 2 : Défilement vers la droite (Ruban Orange/Rouge solidaire) */}
+      <div className="relative py-3 bg-gradient-to-r from-aus-orange-600 via-aus-red-600 to-aus-orange-600 text-white overflow-hidden shadow-md">
+        <div className="flex w-max animate-marquee-reverse hover:[animation-play-state:paused]">
+          {bottomLoop.map((item, i) => (
+            <span
+              key={`bot-${i}`}
+              className="flex items-center gap-4 sm:gap-6 pr-4 sm:pr-6 text-xs sm:text-sm font-extrabold uppercase tracking-widest whitespace-nowrap text-white/95"
+            >
+              {i % 2 === 0 ? (
+                <Stethoscope className="w-4 h-4 text-amber-200 shrink-0" />
+              ) : (
+                <HeartHandshake className="w-4 h-4 text-amber-200 shrink-0" />
+              )}
+              <span>{item}</span>
+              <span className="text-white/40">•</span>
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );
 }
-

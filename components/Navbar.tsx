@@ -64,8 +64,8 @@ export default function Navbar() {
         hidden && !isOpen ? "-translate-y-full" : "translate-y-0"
       }`}
     >
-      {/* Top Banner Contact Bar - hidden on small mobile, visible from sm */}
-      <div className="bg-aus-blue-900 text-white text-xs sm:text-sm py-2 px-4 sm:px-6 border-b border-aus-blue-800">
+      {/* Top Banner Contact Bar - Bandeau dégradé style Consortium Jeunesse Sénégal */}
+      <div className="bg-gradient-to-r from-[#04182B] via-aus-blue-800 to-emerald-900 text-white text-xs sm:text-sm py-2 px-4 sm:px-6 border-b border-white/10">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           <div className="flex items-center space-x-4 sm:space-x-6">
             <a

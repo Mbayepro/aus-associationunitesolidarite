@@ -2,40 +2,27 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { content } from "@/data/content";
+import CjsHeroSlider from "@/components/CjsHeroSlider";
+import CjsPillarBento, { CjsArrowSvg } from "@/components/CjsPillarBento";
+import CjsProjectsCarousel from "@/components/CjsProjectsCarousel";
 import HomeActionsGrid from "@/components/HomeActionsGrid";
 import GallerySection from "@/components/GallerySection";
 import { DonationSection } from "@/components/DonationSection";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import Reveal from "@/components/motion/Reveal";
-import CountUp from "@/components/motion/CountUp";
-import Parallax from "@/components/motion/Parallax";
-import Magnetic from "@/components/motion/Magnetic";
-import SplitWords from "@/components/motion/SplitWords";
 import ImpactMarquee from "@/components/ImpactMarquee";
-import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import {
   Heart,
   Users,
   Stethoscope,
-  Award,
   Calendar,
   MapPin,
   ArrowRight,
   Sparkles,
-  CheckCircle,
-  ChevronRight,
-  ChevronDown,
   Globe,
   Building2,
   type LucideIcon,
 } from "lucide-react";
-
-const statIcons: Record<string, { icon: LucideIcon; color: string; bg: string }> = {
-  users: { icon: Users, color: "text-aus-blue-600", bg: "bg-aus-blue-50" },
-  stethoscope: { icon: Stethoscope, color: "text-emerald-600", bg: "bg-emerald-50" },
-  heart: { icon: Heart, color: "text-aus-red-600", bg: "bg-red-50" },
-  award: { icon: Award, color: "text-aus-orange-600", bg: "bg-orange-50" },
-};
 
 const valueIcons: Record<string, LucideIcon> = {
   users: Users,
@@ -71,7 +58,10 @@ function SectionHeading({
         <span className={`text-xs font-extrabold uppercase tracking-widest px-3 py-1 rounded-full border ${tagClass}`}>
           {tag}
         </span>
-        <h2 className="mt-3 text-3xl sm:text-4xl font-black text-slate-900">{title}</h2>
+        <h2 className="mt-3 text-3xl sm:text-4xl font-black text-slate-900 flex items-center flex-wrap">
+          <span>{title}</span>
+          <CjsArrowSvg className="w-7 sm:w-8 h-auto fill-aus-red-600 ml-2.5" />
+        </h2>
         <span className="mt-3 block h-1 w-20 rounded-full bg-gradient-to-r from-aus-blue-600 via-aus-orange-500 to-aus-green-600 origin-left animate-draw-line" />
         <p className="mt-3 text-sm sm:text-base text-slate-600 max-w-2xl">{text}</p>
       </Reveal>
@@ -95,258 +85,44 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* 1. HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-blue-50/70 via-white to-slate-50/50 pt-8 pb-16 sm:pt-14 sm:pb-24 border-b border-slate-100">
-        {/* Animated background (parallaxe douce) */}
-        <div className="absolute inset-0 bg-dots opacity-70 pointer-events-none" aria-hidden="true" />
-        <Parallax speed={0.25} className="absolute inset-0 pointer-events-none">
-          <div className="absolute -top-20 -left-20 w-[26rem] h-[26rem] rounded-full bg-aus-blue-200/50 blur-3xl animate-blob" aria-hidden="true" />
-          <div className="absolute top-10 right-0 w-[22rem] h-[22rem] rounded-full bg-aus-orange-200/40 blur-3xl animate-blob [animation-delay:3s]" aria-hidden="true" />
-          <div className="absolute -bottom-24 left-1/3 w-[24rem] h-[24rem] rounded-full bg-aus-green-100/60 blur-3xl animate-blob [animation-delay:6s]" aria-hidden="true" />
-        </Parallax>
+      {/* 1. HERO PLEIN ÉCRAN STYLE CONSORTIUM JEUNESSE SÉNÉGAL */}
+      <CjsHeroSlider />
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top Announcement Bar */}
-          <Reveal variant="down" className="flex justify-center mb-6">
-            <Link
-              href="/actions#journee-medicale-gratuite-2026"
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/90 backdrop-blur border border-aus-blue-200/80 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-xs font-semibold text-slate-800 hover:text-aus-blue-700 group"
-            >
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-600" />
-              </span>
-              <span className="font-bold text-emerald-800 uppercase tracking-wider text-[11px]">Action Réalisée</span>
-              <span className="hidden sm:inline text-slate-300">|</span>
-              <span className="line-clamp-1 text-slate-700">{content.hero.emergencyCallout}</span>
-              <ArrowRight className="w-3.5 h-3.5 text-aus-orange-600 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </Reveal>
-
-          {/* Main Hero Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-            {/* Left Column */}
-            <div className="lg:col-span-7 text-center lg:text-left space-y-6">
-              <Reveal delay={100}>
-                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-aus-blue-100/70 text-aus-blue-900 font-bold text-xs uppercase tracking-wider">
-                  <MapPin className="w-3.5 h-3.5 text-aus-red-600" />
-                  <span>{content.hero.badge}</span>
-                </div>
-              </Reveal>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight leading-[1.15]">
-                <SplitWords text={content.hero.title} baseDelay={200} />{" "}
-                <SplitWords
-                  text={content.hero.highlight}
-                  className="text-gradient-animated"
-                  baseDelay={200 + content.hero.title.split(" ").length * 70}
-                />
-              </h1>
-
-              <Reveal delay={350}>
-                <div className="flex flex-wrap items-center justify-center lg:justify-start gap-2 text-sm font-bold">
-                  <span className="px-3 py-1 rounded-lg bg-aus-blue-50 text-aus-blue-800 border border-aus-blue-200">
-                    « {content.meta.slogans[0]} »
-                  </span>
-                  <span className="px-3 py-1 rounded-lg bg-aus-orange-50 text-aus-orange-800 border border-aus-orange-200">
-                    #{content.meta.slogans[1]}
-                  </span>
-                </div>
-              </Reveal>
-
-              <Reveal delay={450}>
-                <p className="text-base sm:text-lg text-slate-600 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                  {content.hero.subtitle}
-                </p>
-              </Reveal>
-
-              {/* CTAs */}
-              <Reveal delay={550}>
-                <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 sm:gap-4 pt-2">
-                  <Magnetic className="w-full sm:w-auto">
-                  <Link
-                    href="/rejoindre"
-                    className="btn-shine w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-xl text-base font-bold text-white bg-aus-blue-700 hover:bg-aus-blue-800 shadow-lg shadow-aus-blue-700/25 hover:shadow-xl hover:shadow-aus-blue-700/30 transition-all duration-300 group active:scale-95"
-                  >
-                    <Heart className="w-5 h-5 text-aus-red-400 fill-current group-hover:scale-125 transition-transform" />
-                    <span>{content.hero.primaryButtonText}</span>
-                    <ArrowRight className="w-4 h-4 ml-0.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  </Magnetic>
-
-                  <Magnetic className="w-full sm:w-auto" strength={0.2}>
-                  <Link
-                    href="/actions"
-                    className="group w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-4 rounded-xl text-base font-bold text-slate-800 bg-white hover:bg-slate-50 border-2 border-slate-200 hover:border-aus-blue-300 shadow-sm transition-all duration-300"
-                  >
-                    <span>{content.hero.secondaryButtonText}</span>
-                    <ChevronRight className="w-4 h-4 text-slate-500 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                  </Magnetic>
-                </div>
-              </Reveal>
-
-              {/* Trust highlights */}
-              <div className="pt-4 flex flex-wrap items-center justify-center lg:justify-start gap-4 text-xs font-semibold text-slate-600">
-                {[
-                  { label: "Consultations 100% gratuites", color: "text-emerald-600" },
-                  { label: "Partenariat Odontologie UCAD", color: "text-aus-blue-600" },
-                  { label: "Zones : Yeumbeul & Guédiawaye", color: "text-aus-orange-600" },
-                ].map((item, i) => (
-                  <Reveal key={item.label} delay={650 + i * 100} variant="fade">
-                    <div className="flex items-center gap-1.5">
-                      <CheckCircle className={`w-4 h-4 ${item.color}`} />
-                      <span>{item.label}</span>
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-
-            {/* Right Column: Logo & Institutional Hero Card */}
-            <div className="lg:col-span-5 flex justify-center">
-              <Parallax speed={0.08} className="w-full max-w-md">
-              <Reveal variant="zoom" delay={250} duration={900} className="relative w-full max-w-md">
-                <div className="absolute -inset-2 rounded-3xl bg-gradient-to-tr from-aus-blue-600/15 via-aus-orange-500/10 to-aus-green-600/15 blur-xl pointer-events-none" aria-hidden="true" />
-
-                <div className="relative bg-white rounded-3xl p-6 sm:p-8 shadow-xl border border-slate-200/80 flex flex-col items-center text-center">
-                  {/* Official Logo Frame */}
-                  <div className="relative w-44 h-44 sm:w-52 sm:h-52 mb-5 rounded-full p-1.5 bg-gradient-to-tr from-aus-blue-700 via-aus-red-600 to-aus-green-600 shadow-md">
-                    <div className="relative w-full h-full rounded-full bg-white p-2 overflow-hidden">
-                      <Image
-                        src="/logo.png"
-                        alt="Logo officiel AUS – Association pour l'Unité et la Solidarité"
-                        fill
-                        sizes="(max-width: 640px) 176px, 208px"
-                        className="object-contain p-1"
-                        priority
-                      />
-                    </div>
-                  </div>
-
-                  <span className="text-xs font-extrabold text-aus-blue-900 tracking-wider uppercase mb-1">
-                    Association pour l&apos;Unité et la Solidarité
-                  </span>
-                  <h2 className="text-xl font-black text-slate-900">AUS – Yeumbeul &amp; Guédiawaye</h2>
-                  <p className="text-xs text-slate-500 mt-1">Siège : Yeumbeul • Zones : Yeumbeul &amp; Guédiawaye</p>
-
-                  <div className="mt-5 w-full pt-4 border-t border-slate-100 grid grid-cols-2 gap-3 text-left">
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                      <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400">
-                        <Calendar className="w-3 h-3" /> Dernier Bilan
-                      </span>
-                      <span className="text-xs font-bold text-slate-900">10 Octobre 2026</span>
-                      <span className="block text-[11px] text-emerald-700 font-semibold">Consultation Gratuite</span>
-                    </div>
-                    <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-                      <span className="flex items-center gap-1 text-[10px] font-bold uppercase text-slate-400">
-                        <Building2 className="w-3 h-3" /> Lieu d&apos;impact
-                      </span>
-                      <span className="text-xs font-bold text-slate-900">École Aliou Kébé</span>
-                      <span className="block text-[11px] text-aus-blue-700 font-medium">Poste Diamalaye</span>
-                    </div>
-                  </div>
-
-                  <a
-                    href={`https://wa.me/${content.contact.whatsappNumber}?text=${encodeURIComponent(
-                      "Bonjour AUS, je souhaite échanger avec un responsable de l'association."
-                    )}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group mt-5 w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 transition-colors"
-                  >
-                    <WhatsAppIcon className="w-4 h-4 text-emerald-600" />
-                    <span>Contacter la coordination AUS</span>
-                    <ArrowRight className="w-3.5 h-3.5 text-emerald-600 group-hover:translate-x-1 transition-transform" />
-                  </a>
-                </div>
-              </Reveal>
-              </Parallax>
-            </div>
-          </div>
-
-          {/* Scroll cue */}
-          <div className="hidden lg:flex justify-center mt-14">
-            <a href="#chiffres" aria-label="Défiler vers les chiffres clés" className="flex flex-col items-center gap-1 text-[11px] font-semibold uppercase tracking-widest text-slate-400 hover:text-aus-blue-700 transition-colors">
-              Découvrir
-              <ChevronDown className="w-5 h-5 animate-bounce" />
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Bandeau de typographie cinétique */}
+      {/* 2. DOUBLE BANDEAU DÉFILANT EN SENS OPPOSÉ */}
       <ImpactMarquee />
 
-      {/* 2. CHIFFRES CLÉS */}
-      <section id="chiffres" className="py-12 sm:py-16 bg-white border-b border-slate-100 scroll-mt-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Reveal className="text-center max-w-3xl mx-auto mb-10">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-aus-blue-700 bg-blue-50 px-3 py-1 rounded-full border border-blue-100">
-              Impact Communautaire Chiffré
-            </span>
-            <h2 className="mt-3 text-2xl sm:text-3xl font-black text-slate-900">
-              Des actions mesurables à Yeumbeul et Guédiawaye
-            </h2>
-            <p className="mt-2 text-sm sm:text-base text-slate-600">
-              Chaque chiffre représente des vies soulagées, des enfants sensibilisés et une jeunesse mobilisée.
-            </p>
-          </Reveal>
+      {/* 3. INTRO ÉDITORIALE + 3 PILIERS ROTATIFS (Wérgu Yaram | Bokk & Jàng | Bennoo) + MOSAÏQUE BENTO CHIFFRES CLÉS */}
+      <CjsPillarBento />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {content.stats.map((stat, idx) => {
-              const s = statIcons[stat.icon] ?? statIcons.users;
-              const Icon = s.icon;
-              return (
-                <Reveal key={idx} delay={idx * 120} variant="up">
-                  <div className="spotlight group relative h-full overflow-hidden bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between">
-                    <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-gradient-to-br from-aus-blue-100/0 to-aus-orange-100/0 group-hover:from-aus-blue-100/60 group-hover:to-aus-orange-100/60 transition-all duration-700" aria-hidden="true" />
-                    <div className="relative flex items-center justify-between mb-4">
-                      <div className={`p-3 rounded-xl ${s.bg} shadow-sm transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6`}>
-                        <Icon className={`w-7 h-7 ${s.color}`} />
-                      </div>
-                      <span className="w-2 h-2 rounded-full bg-aus-orange-500 animate-pulse" />
-                    </div>
-                    <div className="relative">
-                      <div className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">
-                        <CountUp value={stat.value} />
-                      </div>
-                      <div className="text-sm font-bold text-slate-800 mt-1">{stat.label}</div>
-                      <div className="text-xs text-slate-500 mt-1">{stat.subtext}</div>
-                    </div>
-                  </div>
-                </Reveal>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      {/* 4. CARROUSEL AUTOMATIQUE « NOS PROJETS PHARES » STYLE CJS */}
+      <CjsProjectsCarousel />
 
-      {/* 3. DERNIÈRES ACTIONS */}
-      <section className="py-16 sm:py-20 bg-slate-50/60 border-b border-slate-200">
+      {/* 5. CARTES DÉTAILLÉES DES DERNIÈRES INTERVENTIONS */}
+      <section className="py-16 sm:py-20 bg-slate-50/70 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             tag="AUS sur le Terrain"
             tagClass="text-aus-red-700 bg-red-50 border-red-100"
-            title="Nos actions & projets prioritaires"
-            text="Découvrez nos interventions directes à Yeumbeul et Guédiawaye pour la santé publique, l'éducation bucco-dentaire et l'autonomie citoyenne."
+            title="Détail de nos interventions"
+            text="Consultez les fiches complètes de nos journées médicales gratuites, sensibilisations scolaires et panels citoyens à Yeumbeul et Guédiawaye."
             link={{ href: "/actions", label: "Consulter tout l'historique" }}
           />
           <HomeActionsGrid />
         </div>
       </section>
 
-      {/* 4. QUI SOMMES-NOUS */}
+      {/* 6. VALEURS & IDENTITÉ */}
       <section className="relative py-16 sm:py-20 bg-white border-b border-slate-100 overflow-hidden">
         <div className="absolute -right-32 top-10 w-96 h-96 rounded-full bg-emerald-50 blur-3xl animate-blob pointer-events-none" aria-hidden="true" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             <Reveal variant="left" className="lg:col-span-5 space-y-6">
               <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-700 bg-green-50 px-3 py-1 rounded-full border border-green-100">
-                Identité & Vocation
+                Identité &amp; Vocation
               </span>
               <h2 className="text-3xl sm:text-4xl font-black text-slate-900 leading-tight">
                 Une association bâtie sur le cœur et la fraternité
+                <CjsArrowSvg className="w-7 h-auto fill-emerald-600 ml-2" />
               </h2>
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed">{content.about.mission}</p>
               <div className="p-4 rounded-2xl bg-aus-blue-50/70 border border-aus-blue-100 text-aus-blue-900 text-sm border-l-4 border-l-aus-blue-600">
@@ -356,9 +132,9 @@ export default function HomePage() {
               <div className="pt-2">
                 <Link
                   href="/qui-sommes-nous"
-                  className="btn-shine group inline-flex items-center gap-2 px-5 py-3 rounded-xl text-sm font-bold text-white bg-aus-blue-700 hover:bg-aus-blue-800 transition-all shadow hover:-translate-y-0.5"
+                  className="btn-shine group inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-sm font-bold text-white bg-aus-blue-700 hover:bg-aus-blue-800 transition-all shadow hover:-translate-y-0.5"
                 >
-                  <span>En savoir plus sur l'AUS et l'équipe</span>
+                  <span>En savoir plus sur l&apos;AUS et l&apos;équipe</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
@@ -387,9 +163,9 @@ export default function HomePage() {
                   <div className="h-full p-5 rounded-2xl bg-gradient-to-br from-aus-blue-900 to-slate-900 bg-[length:200%_200%] animate-gradient-x text-white flex flex-col justify-between">
                     <div>
                       <span className="inline-flex items-center gap-1 text-xs font-bold px-2 py-0.5 rounded bg-aus-orange-500/30 text-aus-orange-300">
-                        <MapPin className="w-3 h-3" /> Zones d'intervention
+                        <MapPin className="w-3 h-3" /> Zones d&apos;intervention
                       </span>
-                      <h4 className="text-base font-bold text-white mt-2">Yeumbeul & Guédiawaye</h4>
+                      <h4 className="text-base font-bold text-white mt-2">Yeumbeul &amp; Guédiawaye</h4>
                       <p className="text-xs text-slate-300 mt-1">
                         Interventions sanitaires, éducatives et citoyennes à Yeumbeul et dans tout le département de Guédiawaye.
                       </p>
@@ -405,7 +181,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 5. GALERIE */}
+      {/* 7. GALERIE MULTIMÉDIA */}
       <section className="py-16 sm:py-20 bg-slate-50/70 border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
@@ -421,14 +197,14 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 6. ACTUALITÉS */}
+      {/* 8. ACTUALITÉS (Style Loop-Grid CJS avec zoom doux 1.03x au survol) */}
       <section className="py-16 sm:py-20 bg-white border-b border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <SectionHeading
             tag="Fil d'information"
             tagClass="text-aus-orange-700 bg-orange-50 border-orange-100"
             title="Dernières actualités de l'AUS"
-            text="Restez informés sur nos démarches, préparatifs et communiqués officiels."
+            text="Restez informés sur nos démarches, bilans d'activités et communiqués officiels."
             link={{ href: "/actualites", label: "Toutes les actualités" }}
           />
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -436,38 +212,38 @@ export default function HomePage() {
               <Reveal key={item.id} delay={i * 130}>
                 <Link
                   href={`/actualites#${item.id}`}
-                  className="spotlight group h-full bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between"
+                  className="spotlight group h-full bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-500 flex flex-col justify-between"
                 >
-                  <div className="img-reveal relative aspect-[16/10] w-full bg-slate-100 overflow-hidden">
+                  <div className="relative aspect-[16/10] w-full bg-slate-900 overflow-hidden">
                     <Image
                       src={item.image}
                       alt={item.title}
                       fill
                       sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-110"
+                      className="object-cover transition-transform duration-700 group-hover:scale-105"
                     />
-                    <div className="absolute top-3 left-3">
-                      <span className="text-[11px] font-bold px-2.5 py-1 rounded bg-white/95 text-slate-800 shadow-sm">
+                    <div className="absolute top-3.5 left-3.5">
+                      <span className="text-[11px] font-bold px-3 py-1 rounded-full bg-white/95 text-slate-900 shadow-sm">
                         {item.category}
                       </span>
                     </div>
                   </div>
-                  <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div className="p-6 flex-1 flex flex-col justify-between">
                     <div>
-                      <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
+                      <div className="flex items-center gap-2 text-xs text-emerald-700 font-semibold mb-2">
                         <Calendar className="w-3.5 h-3.5" />
                         <span>{item.date}</span>
                         <span>•</span>
-                        <span>{item.readTime}</span>
+                        <span className="text-slate-500">{item.readTime}</span>
                       </div>
-                      <h3 className="font-bold text-slate-900 text-base leading-snug group-hover:text-aus-blue-700 transition-colors">
+                      <h3 className="font-extrabold text-slate-900 text-lg leading-snug group-hover:text-aus-blue-700 transition-colors">
                         {item.title}
                       </h3>
                       <p className="mt-2 text-xs sm:text-sm text-slate-600 line-clamp-3">{item.summary}</p>
                     </div>
-                    <div className="mt-4 pt-3 border-t border-slate-100">
-                      <span className="inline-flex items-center gap-1.5 text-xs font-bold text-aus-blue-700">
-                        <span>Lire l'article</span>
+                    <div className="mt-5 pt-3.5 border-t border-slate-100">
+                      <span className="inline-flex items-center gap-1.5 text-xs font-extrabold text-aus-blue-700">
+                        <span>Lire l&apos;article</span>
                         <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </span>
                     </div>
@@ -479,41 +255,120 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. PARTENAIRES — défilement infini */}
-      <section className="py-14 bg-slate-50 border-b border-slate-200 overflow-hidden">
-        <Reveal className="text-center mb-8 px-4">
-          <span className="text-xs font-bold uppercase tracking-widest text-slate-500">
-            Ils nous font confiance et agissent à nos côtés
-          </span>
-          <h3 className="text-xl sm:text-2xl font-black text-slate-900 mt-1">Partenaires & Institutions Alliées</h3>
-        </Reveal>
+      {/* 9. PARTENAIRES & ALLIÉS — Cartes flottantes style CJS (ha_floating_fx + scale 1.1) & Bandeau continu */}
+      <section className="py-16 bg-slate-50 border-b border-slate-200 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+          <Reveal variant="left">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-aus-blue-700">
+              Écosystème &amp; Coopération
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-black text-slate-900 mt-1 flex items-center flex-wrap">
+              <span>Les Partenaires de l&apos;AUS</span>
+              <CjsArrowSvg className="w-6 h-auto fill-aus-red-600 ml-2.5" />
+            </h3>
+          </Reveal>
 
-        <div className="group relative mask-fade-x">
+          {/* Grille de badges flottants avec zoom 1.08x au survol comme sur CJS */}
+          <div className="mt-8 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {content.partners.map((partner, idx) => (
+              <Reveal key={partner.name} delay={idx * 90} variant="up">
+                <div
+                  style={{ animationDelay: `${idx * 0.6}s` }}
+                  className="group h-full bg-white p-4 rounded-2xl border border-slate-200/90 shadow-sm hover:shadow-xl hover:border-aus-blue-400 transition-all duration-300 hover:scale-[1.06] animate-float-slow flex flex-col justify-between"
+                >
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-aus-blue-600 to-emerald-600 text-white flex items-center justify-center mb-3 shadow-sm group-hover:rotate-6 transition-transform">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs sm:text-sm font-extrabold text-slate-900 leading-snug">
+                      {partner.name}
+                    </h4>
+                    <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
+                      {partner.role}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+
+        {/* Bandeau défilant infini des partenaires */}
+        <div className="group relative mask-fade-x pt-2">
           <div className="flex w-max gap-4 animate-marquee group-hover:[animation-play-state:paused]">
             {partnersLoop.map((partner, i) => (
               <div
                 key={i}
                 aria-hidden={i >= content.partners.length}
-                className="w-56 flex-shrink-0 bg-white p-4 rounded-xl border border-slate-200 shadow-sm flex items-center gap-3 hover:border-aus-blue-400 hover:shadow-md transition-all"
+                className="w-64 flex-shrink-0 bg-white px-4 py-3 rounded-full border border-slate-200 shadow-sm flex items-center gap-3 hover:border-emerald-500 transition-all"
               >
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-aus-blue-600 to-aus-blue-800 text-white flex items-center justify-center flex-shrink-0">
-                  <Building2 className="w-5 h-5" />
-                </div>
-                <div className="min-w-0">
-                  <h4 className="text-xs font-bold text-slate-900 line-clamp-2">{partner.name}</h4>
-                  <p className="text-[10px] text-slate-500 mt-0.5 line-clamp-1">{partner.role}</p>
-                </div>
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
+                <span className="text-xs font-bold text-slate-800 truncate">{partner.name}</span>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* 8. DONS & SOUTIEN FINANCIER (Wave & Orange Money) */}
+      {/* 10. DONS & SOUTIEN FINANCIER (Wave & Orange Money) */}
       <DonationSection className="bg-white border-b border-slate-100" />
 
-      {/* 9. FOIRE AUX QUESTIONS */}
+      {/* 11. FOIRE AUX QUESTIONS */}
       <FaqAccordion className="bg-slate-50/50" limit={4} />
+
+      {/* 12. BANDEAU D'APPEL FINAL STYLE CJS (« Rejoignez l'AUS / Nous contacter » avec soulignement SVG animé) */}
+      <section className="relative py-16 sm:py-20 bg-gradient-to-r from-[#04182B] via-aus-blue-900 to-[#06241B] text-white overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <Reveal variant="left" className="lg:col-span-8 space-y-3">
+              <span className="text-xs font-extrabold uppercase tracking-widest text-emerald-400">
+                Bokk • Jàng • Ligeey • Wérgu Yaram
+              </span>
+              <h2 className="text-3xl sm:text-5xl font-black tracking-tight leading-tight">
+                <Link href="/rejoindre" className="hover:text-emerald-300 transition-colors">
+                  Rejoignez le mouvement AUS
+                </Link>{" "}
+                à Yeumbeul &amp; Guédiawaye
+              </h2>
+              <p className="text-sm sm:text-base text-slate-300 max-w-2xl">
+                Bénévoles, médecins, étudiants, partenaires institutionnels : construisons ensemble des actions durables pour nos communautés.
+              </p>
+            </Reveal>
+
+            <Reveal variant="right" delay={150} className="lg:col-span-4 flex flex-col sm:flex-row lg:flex-col items-start lg:items-end justify-center gap-5">
+              <Link
+                href="/contact"
+                className="group relative inline-block text-xl sm:text-2xl font-extrabold text-white hover:text-amber-300 transition-colors pb-2"
+              >
+                <span>Nous contacter directement</span>
+                <svg
+                  viewBox="0 0 300 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="absolute left-0 -bottom-1 w-full h-3.5 pointer-events-none"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 13C72 4 198 3 296 12"
+                    stroke="#F97316"
+                    strokeWidth="6"
+                    strokeLinecap="round"
+                    className="cjs-underline-path"
+                  />
+                </svg>
+              </Link>
+
+              <Link
+                href="/rejoindre"
+                className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-sm font-bold text-white bg-emerald-600 hover:bg-emerald-500 shadow-lg transition-all hover:-translate-y-0.5"
+              >
+                <span>Devenir membre ou bénévole</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </Reveal>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

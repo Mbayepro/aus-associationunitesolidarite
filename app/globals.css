@@ -298,6 +298,40 @@ html[data-intro="play"] {
   -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.85);
 }
 
+/* Défilement inverse (droite) pour le second bandeau */
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+.animate-marquee-reverse {
+  animation: marquee-reverse 38s linear infinite;
+}
+
+/* Tracé souligné animé style Consortium Jeunesse Sénégal */
+@keyframes cjs-draw-stroke {
+  0%, 15% {
+    stroke-dashoffset: 320;
+    opacity: 0.2;
+  }
+  45%, 85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 320;
+    opacity: 0.2;
+  }
+}
+.cjs-underline-path {
+  stroke-dasharray: 320;
+  stroke-dashoffset: 0;
+  animation: cjs-draw-stroke 5s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+}
+
 /* Accessibilité : respect de la préférence « réduire les animations » */
 @media (prefers-reduced-motion: reduce) {
   *,
