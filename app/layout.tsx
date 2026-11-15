@@ -14,17 +14,53 @@ import { content } from "@/data/content";
 
 const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL ||
+  content.meta.url ||
   (process.env.VERCEL_PROJECT_PRODUCTION_URL
     ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : "") ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "") ||
-  content.meta.url;
+    : "");
+
+const organizationJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "NGO",
+  name: content.meta.fullName,
+  alternateName: [
+    "AUS",
+    "AUS Sénégal",
+    "AUS Yeumbeul",
+    "AUS Guédiawaye",
+    "Association pour l'Unité et la Solidarité",
+    "Association Unité et Solidarité",
+  ],
+  url: siteUrl,
+  logo: `${siteUrl}/logo.png`,
+  image: `${siteUrl}/og-image.jpg`,
+  description: content.meta.description,
+  slogan: content.meta.slogans[0],
+  email: content.contact.email,
+  telephone: content.contact.phone,
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "Yeumbeul",
+    addressRegion: "Guédiawaye, Dakar",
+    addressCountry: "SN",
+  },
+  areaServed: [
+    { "@type": "City", name: "Yeumbeul" },
+    { "@type": "City", name: "Guédiawaye" },
+    { "@type": "City", name: "Dakar" },
+    { "@type": "Country", name: "Sénégal" },
+  ],
+  sameAs: [content.contact.facebookUrl],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  alternates: {
+    canonical: "/",
+  },
   title: {
-    default: `${content.meta.acronym} – ${content.meta.fullName} | Yeumbeul`,
-    template: `%s | ${content.meta.acronym} – Yeumbeul`,
+    default: `${content.meta.acronym} – ${content.meta.fullName} | Yeumbeul & Guédiawaye`,
+    template: `%s | ${content.meta.acronym} – ${content.meta.fullName}`,
   },
   description: content.meta.description,
   keywords: content.meta.keywords,
@@ -79,6 +115,10 @@ export default function RootLayout({
     <html lang="fr" data-scroll-behavior="smooth" className="scroll-smooth" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: motionBootScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
       </head>
       <body className="min-h-screen flex flex-col bg-white text-slate-900 font-sans antialiased selection:bg-aus-blue-700 selection:text-white">
         <IntroSplash />
