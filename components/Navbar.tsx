@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { content } from "@/data/content";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import FacebookIcon from "@/components/icons/FacebookIcon";
+import InstallAppButton from "@/components/InstallAppButton";
 import {
   Phone,
   Mail,
@@ -164,7 +165,9 @@ export default function Navbar() {
             </div>
 
             {/* Desktop Action Buttons */}
-            <div className="hidden lg:flex items-center space-x-3">
+            <div className="hidden lg:flex items-center space-x-2.5">
+              <InstallAppButton variant="navbar" />
+
               <a
                 href={`https://wa.me/${content.contact.whatsappNumber}?text=${encodeURIComponent(
                   content.contact.whatsappMessageIntro
@@ -189,10 +192,12 @@ export default function Navbar() {
             </div>
 
             {/* Mobile menu button */}
-            <div className="flex items-center space-x-2 lg:hidden">
+            <div className="flex items-center space-x-1.5 lg:hidden">
+              <InstallAppButton variant="mobile-bar" />
+
               <Link
                 href="/rejoindre"
-                className="inline-flex items-center gap-1 px-3 py-1.5 text-xs font-bold text-white bg-aus-blue-700 rounded-md"
+                className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-bold text-white bg-aus-blue-700 rounded-md"
               >
                 <Heart className="w-3.5 h-3.5 text-aus-red-400 fill-current" />
                 <span>Rejoindre</span>
@@ -235,6 +240,11 @@ export default function Navbar() {
               })}
 
               <div className="pt-4 border-t border-slate-100 flex flex-col gap-2.5">
+                <InstallAppButton
+                  variant="mobile-drawer"
+                  onAction={() => setIsOpen(false)}
+                />
+
                 <Link
                   href="/rejoindre"
                   onClick={() => setIsOpen(false)}
