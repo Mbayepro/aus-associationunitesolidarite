@@ -495,6 +495,14 @@ export default function AdminPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5">
+            <button
+              type="button"
+              onClick={() => setActiveTab("security")}
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-xs font-bold text-amber-200 transition-colors cursor-pointer"
+            >
+              <KeyRound className="w-3.5 h-3.5" />
+              <span>Changer le mot de passe</span>
+            </button>
             <Link
               href="/actions"
               className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-white transition-colors"
@@ -577,7 +585,7 @@ export default function AdminPage() {
             }`}
           >
             <KeyRound className="w-4 h-4 shrink-0" />
-            <span>Code secret</span>
+            <span>Mot de passe</span>
           </button>
         </div>
 
