@@ -83,14 +83,13 @@ export const CERTIFICATE_TYPES: Record<
 const CUSTOM_ACTIONS_KEY = "aus_admin_custom_actions_v1";
 const CERTIFICATES_KEY = "aus_admin_certificates_v1";
 const ADMIN_PIN_KEY = "aus_admin_pin_v1";
-const DEFAULT_ADMIN_PIN = "2026";
-const UNIVERSAL_BUREAU_PINS = ["2026", "aus2026", "bureau2026", "762937754"];
+const DEFAULT_ADMIN_PIN = "AUS2026";
 
 export function getAdminPin(): string {
   if (typeof window === "undefined") return DEFAULT_ADMIN_PIN;
   try {
     const saved = window.localStorage.getItem(ADMIN_PIN_KEY);
-    return saved && saved.trim().length >= 3 ? saved.trim() : DEFAULT_ADMIN_PIN;
+    return saved && saved.trim().length >= 4 ? saved.trim() : DEFAULT_ADMIN_PIN;
   } catch {
     return DEFAULT_ADMIN_PIN;
   }
@@ -99,14 +98,16 @@ export function getAdminPin(): string {
 export function validateAdminPin(input: string): boolean {
   const cleaned = input.trim();
   if (!cleaned) return false;
-  const activePin = getAdminPin();
-  if (cleaned === activePin || cleaned.toLowerCase() === activePin.toLowerCase()) {
-    return true;
+  const saved =
+    typeof window !== "undefined" ? window.localStorage.getItem(ADMIN_PIN_KEY) : null;
+
+  // Si l'administrateur a défini un nouveau mot de passe, SEUL ce nouveau mot de passe fonctionne
+  if (saved && saved.trim().length >= 4) {
+    return cleaned === saved.trim();
   }
-  if (UNIVERSAL_BUREAU_PINS.includes(cleaned.toLowerCase())) {
-    return true;
-  }
-  return false;
+
+  // Tant qu'aucun mot de passe personnalisé n'a été défini, accepte AUS2026 ou 2026
+  return cleaned.toUpperCase() === "AUS2026" || cleaned === "2026";
 }
 
 export function resetAdminPinToDefault(): void {
@@ -129,17 +130,71 @@ export function encodeSharedPinToken(pin: string): string {
 export function decodeSharedPinToken(token: string): string | null {
   try {
     const decoded = decodeURIComponent(atob(token.trim()));
-    return decoded && decoded.length >= 3 ? decoded : null;
+    return decoded && decoded.length >= 4 ? decoded : null;
   } catch {
     return null;
+  }
+}
+
+export async function syncAdminStateFromServer(): Promise<{
+  pin: string;
+  customActions: ActionItem[];
+  certificates: CertificateItem[];
+} | null> {
+  if (typeof window === "undefined") return null;
+  try {
+    const res = await fetch("/api/admin", { cache: "no-store" });
+    if (!res.ok) return null;
+    const data = await res.json();
+    if (data && typeof data.pin === "string" && data.pin.length >= 4) {
+      // Si le serveur a un mot de passe personnalisé, on synchronise l'appareil
+      if (data.pin !== DEFAULT_ADMIN_PIN) {
+        window.localStorage.setItem(ADMIN_PIN_KEY, data.pin);
+      }
+      if (Array.isArray(data.customActions) && data.customActions.length > 0) {
+        window.localStorage.setItem(
+          CUSTOM_ACTIONS_KEY,
+          JSON.stringify(data.customActions)
+        );
+        window.dispatchEvent(new Event("aus-actions-updated"));
+      }
+      if (Array.isArray(data.certificates) && data.certificates.length > 0) {
+        window.localStorage.setItem(
+          CERTIFICATES_KEY,
+          JSON.stringify(data.certificates)
+        );
+      }
+      return data;
+    }
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+export async function pushAdminStateToServer(): Promise<void> {
+  if (typeof window === "undefined") return;
+  try {
+    await fetch("/api/admin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        pin: getAdminPin(),
+        customActions: getCustomActions(),
+        certificates: getSavedCertificates(),
+      }),
+    });
+  } catch {
+    // ignore network errors
   }
 }
 
 export function setAdminPin(newPin: string): void {
   if (typeof window === "undefined") return;
   const cleaned = newPin.trim();
-  if (cleaned.length >= 3) {
+  if (cleaned.length >= 4) {
     window.localStorage.setItem(ADMIN_PIN_KEY, cleaned);
+    void pushAdminStateToServer();
   }
 }
 
@@ -175,6 +230,7 @@ export function saveCustomAction(action: ActionItem): ActionItem[] {
   if (typeof window !== "undefined") {
     window.localStorage.setItem(CUSTOM_ACTIONS_KEY, JSON.stringify(updated));
     window.dispatchEvent(new Event("aus-actions-updated"));
+    void pushAdminStateToServer();
   }
   return updated;
 }
@@ -185,6 +241,7 @@ export function deleteCustomAction(id: string): ActionItem[] {
   if (typeof window !== "undefined") {
     window.localStorage.setItem(CUSTOM_ACTIONS_KEY, JSON.stringify(updated));
     window.dispatchEvent(new Event("aus-actions-updated"));
+    void pushAdminStateToServer();
   }
   return updated;
 }
@@ -213,6 +270,7 @@ export function saveCertificate(cert: CertificateItem): CertificateItem[] {
   }
   if (typeof window !== "undefined") {
     window.localStorage.setItem(CERTIFICATES_KEY, JSON.stringify(updated));
+    void pushAdminStateToServer();
   }
   return updated;
 }
@@ -222,6 +280,7 @@ export function deleteCertificate(id: string): CertificateItem[] {
   const updated = current.filter((c) => c.id !== id);
   if (typeof window !== "undefined") {
     window.localStorage.setItem(CERTIFICATES_KEY, JSON.stringify(updated));
+    void pushAdminStateToServer();
   }
   return updated;
 }

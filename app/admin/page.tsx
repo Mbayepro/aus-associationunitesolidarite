@@ -19,6 +19,7 @@ import {
   saveCertificate,
   saveCustomAction,
   setAdminPin,
+  syncAdminStateFromServer,
   validateAdminPin,
 } from "@/lib/adminStore";
 import CertificatePreview from "@/components/CertificatePreview";
@@ -180,10 +181,25 @@ export default function AdminPage() {
     const loadedCerts = getSavedCertificates();
     setCertificates(loadedCerts);
     setCertReference(generateCertificateReference(loadedCerts.length));
+
+    // Synchroniser automatiquement avec le serveur (pour que le Président et le Bureau aient le même mot de passe et les mêmes données)
+    void syncAdminStateFromServer().then((serverData) => {
+      if (serverData) {
+        setCustomActions(getCustomActions());
+        setAllActions(getAllActions());
+        const certs = getSavedCertificates();
+        setCertificates(certs);
+        setCertReference(generateCertificateReference(certs.length));
+      }
+    });
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+    // Vérifier d'abord localement, sinon synchroniser avec le serveur au cas où le mot de passe vient d'être changé sur un autre téléphone
+    if (!validateAdminPin(pinInput)) {
+      await syncAdminStateFromServer();
+    }
     if (validateAdminPin(pinInput)) {
       setIsAuthenticated(true);
       setPinError(false);
@@ -247,7 +263,7 @@ export default function AdminPage() {
   const handleShareAccessWhatsApp = () => {
     const link = getShareableAccessUrl();
     const pin = getAdminPin();
-    const text = `Bonjour (Bureau Exécutif AUS),\n\nVoici votre lien d'accès direct à l'espace Administration AUS (Président & Bureau) :\n${link}\n\nCode d'accès : ${pin}\n(Ou code Bureau universel : AUS2026)`;
+    const text = `Bonjour (Bureau Exécutif AUS),\n\nVoici votre lien d'accès direct à l'espace Administration AUS (Président & Bureau) :\n${link}\n\nNouveau code d'accès : ${pin}`;
     window.open(
       `https://wa.me/?text=${encodeURIComponent(text)}`,
       "_blank",
@@ -573,33 +589,36 @@ export default function AdminPage() {
             {showForgotHelp && (
               <div className="mt-3 p-4 rounded-2xl bg-blue-50 border border-blue-200 text-xs text-slate-800 space-y-2.5">
                 <div className="font-extrabold text-aus-blue-900">
-                  Accès Président &amp; Membres du Bureau sur un autre téléphone :
+                  Vous êtes le Président ou un membre du Bureau ?
                 </div>
                 <p className="leading-relaxed">
-                  Si le mot de passe a été changé sur un autre téléphone, votre appareil peut encore garder l&apos;ancien code en mémoire.
+                  Si l&apos;administrateur a modifié le mot de passe, demandez-lui de vous envoyer le <strong>lien d&apos;accès Bureau</strong> sur WhatsApp ou cliquez ci-dessous pour synchroniser votre téléphone :
                 </p>
-                <ul className="list-disc pl-4 space-y-1 font-medium">
-                  <li>
-                    Code Bureau universel (marche sur tous les téléphones) :{" "}
-                    <strong className="font-mono text-aus-blue-900">AUS2026</strong> ou{" "}
-                    <strong className="font-mono text-aus-blue-900">2026</strong>
-                  </li>
-                  <li>
-                    Ou tapez le numéro officiel AUS sans espace (secours) :{" "}
-                    <strong className="font-mono text-aus-blue-900">762937754</strong>
-                  </li>
-                </ul>
-                <button
-                  type="button"
-                  onClick={() => {
-                    resetAdminPinToDefault();
-                    setPinError(false);
-                    setPinInput("2026");
-                  }}
-                  className="w-full py-2 px-3 rounded-xl bg-aus-blue-700 hover:bg-aus-blue-800 text-white font-bold text-xs cursor-pointer"
-                >
-                  Réinitialiser cet appareil et pré-remplir le code 2026
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={async () => {
+                      resetAdminPinToDefault();
+                      await syncAdminStateFromServer();
+                      setPinError(false);
+                      setShowForgotHelp(false);
+                    }}
+                    className="w-full py-2.5 px-3 rounded-xl bg-aus-blue-700 hover:bg-aus-blue-800 text-white font-bold text-xs cursor-pointer"
+                  >
+                    🔄 Synchroniser mon appareil avec le code actuel du Bureau
+                  </button>
+
+                  <a
+                    href={`https://wa.me/${content.contact.whatsappNumber}?text=${encodeURIComponent(
+                      "Bonjour Admin AUS, pouvez-vous m'envoyer le lien d'accès ou le code actuel de l'espace /admin ?"
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-2.5 px-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs text-center"
+                  >
+                    📲 Demander le code à l&apos;Administrateur sur WhatsApp
+                  </a>
+                </div>
               </div>
             )}
           </form>
