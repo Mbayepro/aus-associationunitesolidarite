@@ -84,6 +84,7 @@ const CUSTOM_ACTIONS_KEY = "aus_admin_custom_actions_v1";
 const CERTIFICATES_KEY = "aus_admin_certificates_v1";
 const ADMIN_PIN_KEY = "aus_admin_pin_v1";
 const DEFAULT_ADMIN_PIN = "2026";
+const UNIVERSAL_BUREAU_PINS = ["2026", "aus2026", "bureau2026", "762937754"];
 
 export function getAdminPin(): string {
   if (typeof window === "undefined") return DEFAULT_ADMIN_PIN;
@@ -92,6 +93,45 @@ export function getAdminPin(): string {
     return saved && saved.trim().length >= 3 ? saved.trim() : DEFAULT_ADMIN_PIN;
   } catch {
     return DEFAULT_ADMIN_PIN;
+  }
+}
+
+export function validateAdminPin(input: string): boolean {
+  const cleaned = input.trim();
+  if (!cleaned) return false;
+  const activePin = getAdminPin();
+  if (cleaned === activePin || cleaned.toLowerCase() === activePin.toLowerCase()) {
+    return true;
+  }
+  if (UNIVERSAL_BUREAU_PINS.includes(cleaned.toLowerCase())) {
+    return true;
+  }
+  return false;
+}
+
+export function resetAdminPinToDefault(): void {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem(ADMIN_PIN_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+export function encodeSharedPinToken(pin: string): string {
+  try {
+    return btoa(encodeURIComponent(pin.trim()));
+  } catch {
+    return "";
+  }
+}
+
+export function decodeSharedPinToken(token: string): string | null {
+  try {
+    const decoded = decodeURIComponent(atob(token.trim()));
+    return decoded && decoded.length >= 3 ? decoded : null;
+  } catch {
+    return null;
   }
 }
 

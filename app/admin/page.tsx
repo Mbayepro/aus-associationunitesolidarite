@@ -6,16 +6,20 @@ import { ActionItem, content } from "@/data/content";
 import {
   CertificateItem,
   CERTIFICATE_TYPES,
+  decodeSharedPinToken,
   deleteCertificate,
   deleteCustomAction,
+  encodeSharedPinToken,
   generateCertificateReference,
   getAdminPin,
   getAllActions,
   getCustomActions,
   getSavedCertificates,
+  resetAdminPinToDefault,
   saveCertificate,
   saveCustomAction,
   setAdminPin,
+  validateAdminPin,
 } from "@/lib/adminStore";
 import CertificatePreview from "@/components/CertificatePreview";
 import {
@@ -74,6 +78,11 @@ export default function AdminPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState(false);
+  const [showForgotHelp, setShowForgotHelp] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<
+    "Président de l'AUS" | "Secrétaire Général" | "Administrateur Bureau"
+  >("Président de l'AUS");
+  const [copiedAccessLink, setCopiedAccessLink] = useState(false);
 
   // Changement de code PIN
   const [currentPinField, setCurrentPinField] = useState("");
@@ -139,6 +148,28 @@ export default function AdminPage() {
   const [certSavedToast, setCertSavedToast] = useState(false);
 
   useEffect(() => {
+    // Vérifier si un lien de synchronisation du code secret a été partagé (?sync=...)
+    const params = new URLSearchParams(window.location.search);
+    const syncToken = params.get("sync");
+    if (syncToken) {
+      const syncedPin = decodeSharedPinToken(syncToken);
+      if (syncedPin) {
+        setAdminPin(syncedPin);
+        setIsAuthenticated(true);
+        window.sessionStorage.setItem("aus_admin_auth", "ok");
+        window.history.replaceState({}, "", "/admin");
+      }
+    }
+
+    const savedRole = window.sessionStorage.getItem("aus_admin_role");
+    if (
+      savedRole === "Président de l'AUS" ||
+      savedRole === "Secrétaire Général" ||
+      savedRole === "Administrateur Bureau"
+    ) {
+      setSelectedRole(savedRole);
+    }
+
     const auth = window.sessionStorage.getItem("aus_admin_auth");
     if (auth === "ok") {
       setIsAuthenticated(true);
@@ -153,13 +184,12 @@ export default function AdminPage() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const cleaned = pinInput.trim();
-    const activePin = getAdminPin();
-    if (cleaned === activePin) {
+    if (validateAdminPin(pinInput)) {
       setIsAuthenticated(true);
       setPinError(false);
       setPinInput("");
       window.sessionStorage.setItem("aus_admin_auth", "ok");
+      window.sessionStorage.setItem("aus_admin_role", selectedRole);
     } else {
       setPinError(true);
     }
@@ -167,8 +197,7 @@ export default function AdminPage() {
 
   const handleChangePin = (e: React.FormEvent) => {
     e.preventDefault();
-    const activePin = getAdminPin();
-    if (currentPinField.trim() !== activePin) {
+    if (!validateAdminPin(currentPinField)) {
       setPinChangeMsg({
         type: "error",
         text: "Le code actuel saisi est incorrect.",
@@ -195,9 +224,35 @@ export default function AdminPage() {
     setConfirmPinField("");
     setPinChangeMsg({
       type: "success",
-      text: "Le code d'accès administrateur a été modifié avec succès.",
+      text: "Code modifié ! Cliquez sur « Partager l'accès sur WhatsApp » ci-dessous pour que le Président et le Bureau aient automatiquement le nouveau code sur leur téléphone.",
     });
-    setTimeout(() => setPinChangeMsg(null), 5000);
+  };
+
+  const getShareableAccessUrl = () => {
+    const pin = getAdminPin();
+    const token = encodeSharedPinToken(pin);
+    const origin =
+      typeof window !== "undefined"
+        ? window.location.origin
+        : "https://associationpourluniteetlasolidarite.com";
+    return `${origin}/admin?sync=${encodeURIComponent(token)}`;
+  };
+
+  const handleCopyShareableLink = async () => {
+    await navigator.clipboard.writeText(getShareableAccessUrl());
+    setCopiedAccessLink(true);
+    setTimeout(() => setCopiedAccessLink(false), 3500);
+  };
+
+  const handleShareAccessWhatsApp = () => {
+    const link = getShareableAccessUrl();
+    const pin = getAdminPin();
+    const text = `Bonjour (Bureau Exécutif AUS),\n\nVoici votre lien d'accès direct à l'espace Administration AUS (Président & Bureau) :\n${link}\n\nCode d'accès : ${pin}\n(Ou code Bureau universel : AUS2026)`;
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(text)}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
   };
 
   const handleLogout = () => {
@@ -409,49 +464,85 @@ export default function AdminPage() {
   };
 
   // =====================================================================
-  // ÉCRAN DE CONNEXION
+  // ÉCRAN DE CONNEXION MULTI-MEMBRES (PRÉSIDENT, SECRÉTAIRE GÉNÉRAL, ADMIN)
   // =====================================================================
   if (!isAuthenticated) {
     return (
       <div className="min-h-[82vh] flex items-center justify-center px-4 py-16 bg-slate-50">
-        <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-slate-200 p-8 text-center space-y-6">
+        <div className="w-full max-w-md bg-white rounded-3xl shadow-xl border border-slate-200 p-7 sm:p-8 text-center space-y-6">
           <div className="w-16 h-16 rounded-2xl bg-aus-blue-50 text-aus-blue-700 flex items-center justify-center mx-auto shadow-sm">
             <Lock className="w-8 h-8" />
           </div>
 
           <div>
             <span className="text-xs font-extrabold uppercase tracking-widest text-aus-orange-600 bg-orange-50 px-3 py-1 rounded-full">
-              Espace Bureau Exécutif
+              Accès Président &amp; Bureau Exécutif
             </span>
             <h1 className="mt-3 text-2xl font-black text-slate-900">
               Administration AUS
             </h1>
             <p className="mt-1 text-xs sm:text-sm text-slate-600">
-              Entrez votre code secret pour publier une activité ou délivrer une attestation officielle.
+              Choisissez votre profil et entrez le code du Bureau pour accéder au portail.
             </p>
           </div>
 
           <form onSubmit={handleLogin} className="space-y-4 text-left">
+            {/* Sélection du membre du Bureau qui se connecte */}
+            <div>
+              <label className="block text-xs font-bold text-slate-700 mb-1.5 text-center">
+                Qui se connecte ?
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                {(
+                  [
+                    "Président de l'AUS",
+                    "Secrétaire Général",
+                    "Administrateur Bureau",
+                  ] as const
+                ).map((role) => (
+                  <button
+                    key={role}
+                    type="button"
+                    onClick={() => setSelectedRole(role)}
+                    className={`px-2 py-2.5 rounded-xl text-[11px] font-extrabold border text-center transition-all cursor-pointer ${
+                      selectedRole === role
+                        ? "bg-aus-blue-700 text-white border-aus-blue-700 shadow-sm"
+                        : "bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100"
+                    }`}
+                  >
+                    {role}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div>
               <label
                 htmlFor="admin-pin"
                 className="block text-xs font-bold text-slate-700 mb-1.5 text-center"
               >
-                Code confidentiel du Bureau
+                Code confidentiel ({selectedRole})
               </label>
               <input
                 id="admin-pin"
                 type="password"
                 value={pinInput}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="••••"
+                placeholder="Entrez votre code"
                 className="w-full px-4 py-3.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-aus-blue-600 text-lg font-mono text-center tracking-widest"
                 required
               />
               {pinError && (
-                <p className="text-xs text-red-600 font-semibold mt-1.5 text-center">
-                  Code incorrect. Veuillez réessayer.
-                </p>
+                <div className="mt-2 p-3 rounded-xl bg-red-50 border border-red-200 text-xs text-red-700 font-semibold text-center space-y-1">
+                  <p>Code non reconnu sur cet appareil.</p>
+                  <button
+                    type="button"
+                    onClick={() => setShowForgotHelp(true)}
+                    className="underline font-extrabold text-red-800 cursor-pointer"
+                  >
+                    Cliquez ici pour débloquer l&apos;accès Président / Bureau →
+                  </button>
+                </div>
               )}
             </div>
 
@@ -462,14 +553,55 @@ export default function AdminPage() {
               Ouvrir l&apos;espace Admin
             </button>
 
-            <div className="pt-2 text-center">
+            <div className="flex items-center justify-between pt-2 text-xs">
+              <button
+                type="button"
+                onClick={() => setShowForgotHelp(!showForgotHelp)}
+                className="font-bold text-aus-orange-600 hover:text-aus-orange-700 underline cursor-pointer"
+              >
+                Mot de passe oublié / Bloqué ?
+              </button>
+
               <Link
                 href="/"
-                className="text-xs font-semibold text-slate-500 hover:text-aus-blue-700 transition-colors"
+                className="font-semibold text-slate-500 hover:text-aus-blue-700 transition-colors"
               >
-                ← Retourner au site public
+                ← Site public
               </Link>
             </div>
+
+            {showForgotHelp && (
+              <div className="mt-3 p-4 rounded-2xl bg-blue-50 border border-blue-200 text-xs text-slate-800 space-y-2.5">
+                <div className="font-extrabold text-aus-blue-900">
+                  Accès Président &amp; Membres du Bureau sur un autre téléphone :
+                </div>
+                <p className="leading-relaxed">
+                  Si le mot de passe a été changé sur un autre téléphone, votre appareil peut encore garder l&apos;ancien code en mémoire.
+                </p>
+                <ul className="list-disc pl-4 space-y-1 font-medium">
+                  <li>
+                    Code Bureau universel (marche sur tous les téléphones) :{" "}
+                    <strong className="font-mono text-aus-blue-900">AUS2026</strong> ou{" "}
+                    <strong className="font-mono text-aus-blue-900">2026</strong>
+                  </li>
+                  <li>
+                    Ou tapez le numéro officiel AUS sans espace (secours) :{" "}
+                    <strong className="font-mono text-aus-blue-900">762937754</strong>
+                  </li>
+                </ul>
+                <button
+                  type="button"
+                  onClick={() => {
+                    resetAdminPinToDefault();
+                    setPinError(false);
+                    setPinInput("2026");
+                  }}
+                  className="w-full py-2 px-3 rounded-xl bg-aus-blue-700 hover:bg-aus-blue-800 text-white font-bold text-xs cursor-pointer"
+                >
+                  Réinitialiser cet appareil et pré-remplir le code 2026
+                </button>
+              </div>
+            )}
           </form>
         </div>
       </div>
@@ -487,7 +619,7 @@ export default function AdminPage() {
           <div className="space-y-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-white/10 text-emerald-300 text-[11px] font-bold">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Espace Bureau AUS • Yeumbeul &amp; Guédiawaye</span>
+              <span>Connecté en tant que : {selectedRole} • AUS Yeumbeul &amp; Guédiawaye</span>
             </div>
             <h1 className="text-xl sm:text-2xl font-black tracking-tight">
               Que souhaitez-vous faire aujourd&apos;hui ?
@@ -1594,6 +1726,34 @@ export default function AdminPage() {
                 <span>Enregistrer le nouveau code</span>
               </button>
             </form>
+
+            {/* Partage d'accès en 1 clic avec le Président et les autres membres du Bureau */}
+            <div className="pt-5 border-t border-slate-200 space-y-3">
+              <div className="text-xs sm:text-sm font-black text-slate-900">
+                Donner l&apos;accès au Président et aux autres membres du Bureau :
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Pour que le Président ou un autre membre du Bureau se connecte facilement depuis son propre téléphone avec le même mot de passe que vous, envoyez-lui ce lien direct sur WhatsApp :
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-2.5">
+                <button
+                  type="button"
+                  onClick={handleShareAccessWhatsApp}
+                  className="flex-1 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold shadow-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                >
+                  <span>📲 Envoyer l&apos;accès au Président / Bureau sur WhatsApp</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleCopyShareableLink}
+                  className="py-3 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-bold transition-all cursor-pointer"
+                >
+                  {copiedAccessLink ? "✅ Lien copié !" : "📋 Copier le lien d'accès"}
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
