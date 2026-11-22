@@ -7,6 +7,7 @@ import {
   CertificateItem,
   CERTIFICATE_TYPES,
   decodeSharedPinToken,
+  DEFAULT_SITE_TEXTS,
   deleteCertificate,
   deleteCustomAction,
   encodeSharedPinToken,
@@ -15,10 +16,13 @@ import {
   getAllActions,
   getCustomActions,
   getSavedCertificates,
+  getSiteTexts,
   resetAdminPinToDefault,
   saveCertificate,
   saveCustomAction,
+  saveSiteTexts,
   setAdminPin,
+  SiteTextSettings,
   syncAdminStateFromServer,
   validateAdminPin,
 } from "@/lib/adminStore";
@@ -72,7 +76,13 @@ const QUICK_ROLES = [
   "Participant au Panel Citoyen",
 ];
 
-type AdminTab = "home" | "activities" | "certificates" | "registry" | "security";
+type AdminTab =
+  | "home"
+  | "activities"
+  | "certificates"
+  | "texts"
+  | "registry"
+  | "security";
 
 export default function AdminPage() {
   // Authentification PIN
@@ -101,6 +111,8 @@ export default function AdminPage() {
   const [customActions, setCustomActions] = useState<ActionItem[]>([]);
   const [allActions, setAllActions] = useState<ActionItem[]>(content.actions);
   const [certificates, setCertificates] = useState<CertificateItem[]>([]);
+  const [siteTexts, setSiteTexts] = useState<SiteTextSettings>(DEFAULT_SITE_TEXTS);
+  const [textsSavedToast, setTextsSavedToast] = useState(false);
 
   // État Formulaire Activité
   const [editingActionId, setEditingActionId] = useState<string | null>(null);
@@ -181,6 +193,7 @@ export default function AdminPage() {
     const loadedCerts = getSavedCertificates();
     setCertificates(loadedCerts);
     setCertReference(generateCertificateReference(loadedCerts.length));
+    setSiteTexts(getSiteTexts());
 
     // Synchroniser automatiquement avec le serveur (pour que le Président et le Bureau aient le même mot de passe et les mêmes données)
     void syncAdminStateFromServer().then((serverData) => {
@@ -190,6 +203,7 @@ export default function AdminPage() {
         const certs = getSavedCertificates();
         setCertificates(certs);
         setCertReference(generateCertificateReference(certs.length));
+        setSiteTexts(getSiteTexts());
       }
     });
   }, []);
@@ -672,8 +686,8 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Barre de menu rapide (5 onglets très lisibles) */}
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 print:hidden">
+        {/* Barre de menu rapide (6 onglets très lisibles) */}
+        <div className="grid grid-cols-2 sm:grid-cols-6 gap-2 print:hidden">
           <button
             type="button"
             onClick={() => setActiveTab("home")}
@@ -684,7 +698,7 @@ export default function AdminPage() {
             }`}
           >
             <LayoutGrid className="w-4 h-4 shrink-0" />
-            <span>Accueil Admin</span>
+            <span>Accueil</span>
           </button>
 
           <button
@@ -715,6 +729,19 @@ export default function AdminPage() {
 
           <button
             type="button"
+            onClick={() => setActiveTab("texts")}
+            className={`flex items-center justify-center gap-2 px-3 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+              activeTab === "texts"
+                ? "bg-purple-700 text-white shadow-md"
+                : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
+            }`}
+          >
+            <Edit3 className="w-4 h-4 shrink-0" />
+            <span>Textes du site</span>
+          </button>
+
+          <button
+            type="button"
             onClick={() => setActiveTab("registry")}
             className={`flex items-center justify-center gap-2 px-3 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
               activeTab === "registry"
@@ -729,7 +756,7 @@ export default function AdminPage() {
           <button
             type="button"
             onClick={() => setActiveTab("security")}
-            className={`col-span-2 sm:col-span-1 flex items-center justify-center gap-2 px-3 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
+            className={`flex items-center justify-center gap-2 px-3 py-3 rounded-2xl text-xs sm:text-sm font-extrabold transition-all cursor-pointer ${
               activeTab === "security"
                 ? "bg-slate-800 text-white shadow-md"
                 : "bg-white text-slate-700 hover:bg-slate-100 border border-slate-200"
@@ -745,8 +772,8 @@ export default function AdminPage() {
         {/* ================================================================= */}
         {activeTab === "home" && (
           <div className="space-y-8">
-            {/* 3 Grandes Cartes d'Action Immédiate */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+            {/* 4 Grandes Cartes d'Action Immédiate */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {/* Carte 1 : Publier une activité */}
               <button
                 type="button"
@@ -754,26 +781,26 @@ export default function AdminPage() {
                   resetActionForm();
                   setActiveTab("activities");
                 }}
-                className="group text-left bg-white hover:bg-blue-50/40 rounded-3xl p-6 sm:p-7 border-2 border-blue-200 hover:border-aus-blue-700 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer"
+                className="group text-left bg-white hover:bg-blue-50/40 rounded-3xl p-6 border-2 border-blue-200 hover:border-aus-blue-700 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-aus-blue-700 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                      <FolderPlus className="w-7 h-7" />
+                    <div className="w-12 h-12 rounded-2xl bg-aus-blue-700 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                      <FolderPlus className="w-6 h-6" />
                     </div>
                     <span className="text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-blue-50 text-aus-blue-800">
                       Action 1
                     </span>
                   </div>
-                  <h2 className="text-xl font-black text-slate-900">
+                  <h2 className="text-lg font-black text-slate-900">
                     Ajouter une Activité
                   </h2>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Publiez une journée médicale, une sensibilisation ou un panel réalisé à Yeumbeul ou Guédiawaye avec sa photo.
+                  <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
+                    Publiez une journée médicale, sensibilisation ou panel à Yeumbeul ou Guédiawaye.
                   </p>
                 </div>
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-extrabold text-aus-blue-700">
-                  <span>Ouvrir le formulaire rapide</span>
+                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-extrabold text-aus-blue-700">
+                  <span>Ouvrir le formulaire</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
@@ -782,55 +809,83 @@ export default function AdminPage() {
               <button
                 type="button"
                 onClick={() => setActiveTab("certificates")}
-                className="group text-left bg-white hover:bg-orange-50/40 rounded-3xl p-6 sm:p-7 border-2 border-orange-200 hover:border-aus-orange-600 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer"
+                className="group text-left bg-white hover:bg-orange-50/40 rounded-3xl p-6 border-2 border-orange-200 hover:border-aus-orange-600 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-aus-orange-600 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                      <Award className="w-7 h-7" />
+                    <div className="w-12 h-12 rounded-2xl bg-aus-orange-600 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                      <Award className="w-6 h-6" />
                     </div>
                     <span className="text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-orange-50 text-aus-orange-800">
                       Action 2
                     </span>
                   </div>
-                  <h2 className="text-xl font-black text-slate-900">
+                  <h2 className="text-lg font-black text-slate-900">
                     Donner une Attestation
                   </h2>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Entrez simplement le nom du bénévole, médecin ou partenaire : le diplôme officiel (PDF A4 &amp; Image HD) est prêt !
+                  <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
+                    Créez un diplôme officiel (PDF A4 &amp; Image HD) pour un bénévole, médecin ou partenaire.
                   </p>
                 </div>
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-extrabold text-aus-orange-600">
-                  <span>Créer un diplôme maintenant</span>
+                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-extrabold text-aus-orange-600">
+                  <span>Créer un diplôme</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
 
-              {/* Carte 3 : Consulter les archives */}
+              {/* Carte 3 : Modifier les textes du site */}
               <button
                 type="button"
-                onClick={() => setActiveTab("registry")}
-                className="group text-left bg-white hover:bg-emerald-50/40 rounded-3xl p-6 sm:p-7 border-2 border-emerald-200 hover:border-emerald-600 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer"
+                onClick={() => setActiveTab("texts")}
+                className="group text-left bg-white hover:bg-purple-50/40 rounded-3xl p-6 border-2 border-purple-200 hover:border-purple-700 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
-                    <div className="w-14 h-14 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
-                      <FileCheck2 className="w-7 h-7" />
+                    <div className="w-12 h-12 rounded-2xl bg-purple-700 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                      <Edit3 className="w-6 h-6" />
+                    </div>
+                    <span className="text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-purple-50 text-purple-800">
+                      Action 3
+                    </span>
+                  </div>
+                  <h2 className="text-lg font-black text-slate-900">
+                    Modifier les Textes
+                  </h2>
+                  <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
+                    Changez le bandeau du bas, les zones d&apos;intervention, la présentation AUS, la devise ou les numéros.
+                  </p>
+                </div>
+                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-extrabold text-purple-700">
+                  <span>Modifier les textes</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </button>
+
+              {/* Carte 4 : Consulter les archives */}
+              <button
+                type="button"
+                onClick={() => setActiveTab("registry")}
+                className="group text-left bg-white hover:bg-emerald-50/40 rounded-3xl p-6 border-2 border-emerald-200 hover:border-emerald-600 shadow-sm hover:shadow-xl transition-all flex flex-col justify-between cursor-pointer"
+              >
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                      <FileCheck2 className="w-6 h-6" />
                     </div>
                     <span className="text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-emerald-50 text-emerald-800">
                       Archives
                     </span>
                   </div>
-                  <h2 className="text-xl font-black text-slate-900">
+                  <h2 className="text-lg font-black text-slate-900">
                     Historique &amp; Registre
                   </h2>
-                  <p className="mt-2 text-xs sm:text-sm text-slate-600 leading-relaxed">
-                    Retrouvez vos <strong>{allActions.length} activités</strong> publiées et vos{" "}
-                    <strong>{certificates.length} attestations</strong> enregistrées pour les modifier ou les retélécharger.
+                  <p className="mt-1.5 text-xs text-slate-600 leading-relaxed">
+                    Retrouvez vos <strong>{allActions.length} activités</strong> et vos{" "}
+                    <strong>{certificates.length} attestations</strong> enregistrées.
                   </p>
                 </div>
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between text-xs sm:text-sm font-extrabold text-emerald-700">
-                  <span>Voir toute la liste</span>
+                <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-extrabold text-emerald-700">
+                  <span>Voir la liste</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
               </button>
@@ -1478,7 +1533,216 @@ export default function AdminPage() {
         )}
 
         {/* ================================================================= */}
-        {/* ONGLET 3 : ARCHIVES (HISTORIQUE DES ACTIVITÉS & ATTESTATIONS)     */}
+        {/* ONGLET 3 : MODIFIER LES TEXTES & INFOS DU SITE                    */}
+        {/* ================================================================= */}
+        {activeTab === "texts" && (
+          <div className="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6 print:hidden">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+              <div>
+                <span className="text-xs font-extrabold uppercase text-purple-700">
+                  Personnalisation directe du site
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+                  Modifier les textes du bandeau &amp; pied de page
+                </h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveTab("home")}
+                className="inline-flex items-center gap-1 text-xs font-bold text-slate-500 hover:text-slate-900 cursor-pointer"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" />
+                <span>Retour à l&apos;accueil</span>
+              </button>
+            </div>
+
+            {textsSavedToast && (
+              <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-bold flex items-center gap-2">
+                <Check className="w-5 h-5 text-emerald-600 shrink-0" />
+                <span>
+                  Les textes du site ont été mis à jour avec succès ! Regardez en bas de la page pour voir le résultat immédiat.
+                </span>
+              </div>
+            )}
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const updated = saveSiteTexts(siteTexts);
+                setSiteTexts(updated);
+                setTextsSavedToast(true);
+                setTimeout(() => setTextsSavedToast(false), 4500);
+              }}
+              className="space-y-5"
+            >
+              {/* Bloc 1 : Bandeau d'appel bleu ("Prêt à faire la différence...") */}
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
+                <div className="text-sm font-black text-aus-blue-900">
+                  1. Bandeau d&apos;appel (en bas de toutes les pages)
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Badge des zones d&apos;intervention
+                  </label>
+                  <input
+                    type="text"
+                    value={siteTexts.zonesBadge}
+                    onChange={(e) =>
+                      setSiteTexts({ ...siteTexts, zonesBadge: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Grand titre du bandeau
+                  </label>
+                  <input
+                    type="text"
+                    value={siteTexts.ctaHeading}
+                    onChange={(e) =>
+                      setSiteTexts({ ...siteTexts, ctaHeading: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-bold"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Phrase sous le titre
+                  </label>
+                  <textarea
+                    rows={2}
+                    value={siteTexts.ctaSubtitle}
+                    onChange={(e) =>
+                      setSiteTexts({ ...siteTexts, ctaSubtitle: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm"
+                  />
+                </div>
+              </div>
+
+              {/* Bloc 2 : Présentation AUS, Devise & Slogan */}
+              <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-4">
+                <div className="text-sm font-black text-aus-blue-900">
+                  2. Présentation de l&apos;AUS, Devise &amp; Coordonnées
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Sous-titre sous le logo AUS
+                    </label>
+                    <input
+                      type="text"
+                      value={siteTexts.locationLabel}
+                      onChange={(e) =>
+                        setSiteTexts({ ...siteTexts, locationLabel: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Devise officielle
+                    </label>
+                    <input
+                      type="text"
+                      value={siteTexts.sloganPrimary}
+                      onChange={(e) =>
+                        setSiteTexts({ ...siteTexts, sloganPrimary: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm font-semibold"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 mb-1">
+                    Texte de présentation officielle de l&apos;AUS
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={siteTexts.siteDescription}
+                    onChange={(e) =>
+                      setSiteTexts({ ...siteTexts, siteDescription: e.target.value })
+                    }
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm"
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Hashtag (sans #)
+                    </label>
+                    <input
+                      type="text"
+                      value={siteTexts.sloganHashtag}
+                      onChange={(e) =>
+                        setSiteTexts({ ...siteTexts, sloganHashtag: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Téléphones affichés
+                    </label>
+                    <input
+                      type="text"
+                      value={siteTexts.phoneDisplay}
+                      onChange={(e) =>
+                        setSiteTexts({ ...siteTexts, phoneDisplay: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-bold text-slate-700 mb-1">
+                      Email officiel
+                    </label>
+                    <input
+                      type="email"
+                      value={siteTexts.email}
+                      onChange={(e) =>
+                        setSiteTexts({ ...siteTexts, email: e.target.value })
+                      }
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-white text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const reset = saveSiteTexts(DEFAULT_SITE_TEXTS);
+                    setSiteTexts(reset);
+                    setTextsSavedToast(true);
+                    setTimeout(() => setTextsSavedToast(false), 3500);
+                  }}
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-700 cursor-pointer"
+                >
+                  Remettre les textes par défaut
+                </button>
+
+                <button
+                  type="submit"
+                  className="px-6 py-3.5 rounded-2xl bg-purple-700 hover:bg-purple-800 text-white text-sm font-extrabold shadow-lg transition-all cursor-pointer"
+                >
+                  Enregistrer les modifications
+                </button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {/* ================================================================= */}
+        {/* ONGLET 4 : ARCHIVES (HISTORIQUE DES ACTIVITÉS & ATTESTATIONS)     */}
         {/* ================================================================= */}
         {activeTab === "registry" && (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">

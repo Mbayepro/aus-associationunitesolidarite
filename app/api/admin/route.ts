@@ -2,12 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 import { ActionItem } from "@/data/content";
-import { CertificateItem } from "@/lib/adminStore";
+import { CertificateItem, DEFAULT_SITE_TEXTS, SiteTextSettings } from "@/lib/adminStore";
 
 interface ServerAdminState {
   pin: string;
   customActions: ActionItem[];
   certificates: CertificateItem[];
+  siteTexts: SiteTextSettings;
   updatedAt: string;
 }
 
@@ -40,6 +41,7 @@ function readServerState(): ServerAdminState {
     pin: DEFAULT_PIN,
     customActions: [],
     certificates: [],
+    siteTexts: DEFAULT_SITE_TEXTS,
     updatedAt: new Date().toISOString(),
   };
   globalStore.__ausAdminState = initial;
@@ -61,6 +63,7 @@ export async function GET() {
     pin: state.pin,
     customActions: state.customActions,
     certificates: state.certificates,
+    siteTexts: state.siteTexts || DEFAULT_SITE_TEXTS,
     updatedAt: state.updatedAt,
   });
 }
@@ -81,6 +84,10 @@ export async function POST(req: NextRequest) {
       certificates: Array.isArray(body.certificates)
         ? body.certificates
         : current.certificates,
+      siteTexts:
+        body.siteTexts && typeof body.siteTexts === "object"
+          ? { ...DEFAULT_SITE_TEXTS, ...body.siteTexts }
+          : current.siteTexts || DEFAULT_SITE_TEXTS,
       updatedAt: new Date().toISOString(),
     };
 

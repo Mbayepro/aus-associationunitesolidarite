@@ -1,7 +1,15 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { content } from "@/data/content";
+import {
+  DEFAULT_SITE_TEXTS,
+  getSiteTexts,
+  SiteTextSettings,
+  syncAdminStateFromServer,
+} from "@/lib/adminStore";
 import WhatsAppIcon from "@/components/icons/WhatsAppIcon";
 import FacebookIcon from "@/components/icons/FacebookIcon";
 import {
@@ -9,13 +17,21 @@ import {
   Mail,
   MapPin,
   Heart,
-  Calendar,
   ExternalLink,
   ArrowRight,
 } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [siteTexts, setSiteTexts] = useState<SiteTextSettings>(DEFAULT_SITE_TEXTS);
+
+  useEffect(() => {
+    const refresh = () => setSiteTexts(getSiteTexts());
+    refresh();
+    void syncAdminStateFromServer().then(() => refresh());
+    window.addEventListener("aus-site-texts-updated", refresh);
+    return () => window.removeEventListener("aus-site-texts-updated", refresh);
+  }, []);
 
   return (
     <footer className="bg-slate-900 text-slate-300 border-t-4 border-aus-blue-600">
@@ -24,13 +40,13 @@ export default function Footer() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="text-center md:text-left">
             <span className="inline-block px-3 py-1 mb-2 text-xs font-bold uppercase tracking-wider text-aus-orange-400 bg-aus-orange-950/60 rounded-full border border-aus-orange-800/40">
-              Zones d'intervention : Yeumbeul & Guédiawaye
+              {siteTexts.zonesBadge}
             </span>
             <h3 className="text-2xl sm:text-3xl font-extrabold text-white">
-              Prêt à faire la différence à Yeumbeul et Guédiawaye ?
+              {siteTexts.ctaHeading}
             </h3>
             <p className="mt-1 text-slate-300 text-sm sm:text-base max-w-2xl">
-              Rejoignez notre réseau de bénévoles, soutenez nos journées médicales gratuites ou proposez un partenariat.
+              {siteTexts.ctaSubtitle}
             </p>
           </div>
           <div className="flex flex-wrap items-center justify-center gap-3">
@@ -74,13 +90,13 @@ export default function Footer() {
               <div>
                 <h4 className="text-lg font-bold text-white">AUS</h4>
                 <p className="text-xs text-slate-400 uppercase tracking-wider">
-                  Yeumbeul • Sénégal
+                  {siteTexts.locationLabel}
                 </p>
               </div>
             </div>
 
             <p className="text-sm text-slate-300 leading-relaxed">
-              {content.meta.description}
+              {siteTexts.siteDescription}
             </p>
 
             <div className="pt-2">
@@ -88,10 +104,10 @@ export default function Footer() {
                 Devise & Slogan :
               </p>
               <p className="text-sm font-medium text-white italic mt-0.5">
-                « {content.meta.slogans[0]} »
+                « {siteTexts.sloganPrimary} »
               </p>
               <p className="text-xs font-bold text-emerald-400 mt-1 uppercase tracking-wide">
-                #{content.meta.slogans[1]}
+                #{siteTexts.sloganHashtag.replace(/^#/, "")}
               </p>
             </div>
           </div>
@@ -245,12 +261,12 @@ export default function Footer() {
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Téléphone / WhatsApp</p>
-                  <p className="font-semibold text-white">{content.contact.phoneDisplay}</p>
+                  <p className="font-semibold text-white">{siteTexts.phoneDisplay}</p>
                 </div>
               </a>
 
               <a
-                href={`mailto:${content.contact.email}`}
+                href={`mailto:${siteTexts.email}`}
                 className="flex items-start gap-3 text-slate-300 hover:text-white transition-colors group"
               >
                 <div className="w-8 h-8 rounded-lg bg-aus-red-950/60 text-aus-red-400 flex items-center justify-center flex-shrink-0 group-hover:bg-aus-red-900">
@@ -258,7 +274,7 @@ export default function Footer() {
                 </div>
                 <div className="break-all">
                   <p className="text-xs text-slate-400">Courriel</p>
-                  <p className="font-semibold text-white">{content.contact.email}</p>
+                  <p className="font-semibold text-white">{siteTexts.email}</p>
                 </div>
               </a>
 

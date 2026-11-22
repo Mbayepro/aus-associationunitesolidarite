@@ -83,7 +83,58 @@ export const CERTIFICATE_TYPES: Record<
 const CUSTOM_ACTIONS_KEY = "aus_admin_custom_actions_v1";
 const CERTIFICATES_KEY = "aus_admin_certificates_v1";
 const ADMIN_PIN_KEY = "aus_admin_pin_v1";
+const SITE_TEXTS_KEY = "aus_admin_site_texts_v1";
 const DEFAULT_ADMIN_PIN = "AUS2026";
+
+export interface SiteTextSettings {
+  zonesBadge: string;
+  ctaHeading: string;
+  ctaSubtitle: string;
+  siteDescription: string;
+  sloganPrimary: string;
+  sloganHashtag: string;
+  locationLabel: string;
+  phoneDisplay: string;
+  email: string;
+}
+
+export const DEFAULT_SITE_TEXTS: SiteTextSettings = {
+  zonesBadge: "Zones d'intervention : Yeumbeul & Guédiawaye",
+  ctaHeading: "Prêt à faire la différence à Yeumbeul et Guédiawaye ?",
+  ctaSubtitle:
+    "Rejoignez notre réseau de bénévoles, soutenez nos journées médicales gratuites ou proposez un partenariat.",
+  siteDescription: content.meta.description,
+  sloganPrimary: content.meta.slogans[0],
+  sloganHashtag: content.meta.slogans[1],
+  locationLabel: "Yeumbeul • Sénégal",
+  phoneDisplay: content.contact.phoneDisplay,
+  email: content.contact.email,
+};
+
+export function getSiteTexts(): SiteTextSettings {
+  if (typeof window === "undefined") return DEFAULT_SITE_TEXTS;
+  try {
+    const raw = window.localStorage.getItem(SITE_TEXTS_KEY);
+    if (!raw) return DEFAULT_SITE_TEXTS;
+    const parsed = JSON.parse(raw);
+    return { ...DEFAULT_SITE_TEXTS, ...(parsed || {}) };
+  } catch {
+    return DEFAULT_SITE_TEXTS;
+  }
+}
+
+export function saveSiteTexts(nextTexts: SiteTextSettings): SiteTextSettings {
+  const merged: SiteTextSettings = {
+    ...DEFAULT_SITE_TEXTS,
+    ...nextTexts,
+  };
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem(SITE_TEXTS_KEY, JSON.stringify(merged));
+    window.dispatchEvent(new Event("aus-site-texts-updated"));
+    void pushAdminStateToServer();
+  }
+  return merged;
+}
 
 export function getAdminPin(): string {
   if (typeof window === "undefined") return DEFAULT_ADMIN_PIN;
@@ -140,6 +191,7 @@ export async function syncAdminStateFromServer(): Promise<{
   pin: string;
   customActions: ActionItem[];
   certificates: CertificateItem[];
+  siteTexts?: SiteTextSettings;
 } | null> {
   if (typeof window === "undefined") return null;
   try {
@@ -164,6 +216,13 @@ export async function syncAdminStateFromServer(): Promise<{
           JSON.stringify(data.certificates)
         );
       }
+      if (data.siteTexts && typeof data.siteTexts === "object") {
+        window.localStorage.setItem(
+          SITE_TEXTS_KEY,
+          JSON.stringify({ ...DEFAULT_SITE_TEXTS, ...data.siteTexts })
+        );
+        window.dispatchEvent(new Event("aus-site-texts-updated"));
+      }
       return data;
     }
     return null;
@@ -182,6 +241,7 @@ export async function pushAdminStateToServer(): Promise<void> {
         pin: getAdminPin(),
         customActions: getCustomActions(),
         certificates: getSavedCertificates(),
+        siteTexts: getSiteTexts(),
       }),
     });
   } catch {
